@@ -1,4 +1,6 @@
-  .link {
+/* Ignore how bad this is its old and just needed to the tool */
+
+.link {
     color: #502898;
     text-decoration: none;
   }
@@ -402,4 +404,64 @@
     border-radius: 4%;
     padding: 5px;
     border: rgb(33, 29, 34) 3px solid;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: rgb(21, 61, 179);
+    text-align: center;
+    padding: 14px 16px;
+    border: white;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    /* Gradually change the colour in the background from #333 to #502898 */
+    transition: all .5s ease-in;
+    background-color: #502898;
+  }
+
+  li a:not(:hover) {
+    /* Gradually change the colour in the background from #502898 to #333 */
+    transition: all .5s ease-in;
+    background-color: #333;
+  }
+
+  /* width */
+::-webkit-scrollbar {
+    width: 10px;
+    padding: 1px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(55, 54, 54); 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: indigo; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #361d63; 
   }

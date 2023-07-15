@@ -1,13 +1,46 @@
-/* Shared assets */
-@import './shared/page.css';
-@import './shared/position.css';
+@import './root.css';
 
-/* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+body {
+    height: 100%;
+    width: 100%;
+
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+
+    margin: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+
+    background-color: var(--colour-background);
+}
+
+h1 {
+    color: var(--colour-text);
+}
+
+h2 {
+    color: var(--colour-text);
+}
+
+h3 {
+    color: var(--colour-text);
+}
+
+p {
+    color: var(--colour-text);
+}
 
 .bannerTop {
     text-align: center;
     color: white;
+
+    position: relative;
+
+    z-index: 0;
 
     top: 0px;
     left: 0px;
@@ -27,7 +60,7 @@
     align-content: center;
     
     font-size: 50px;
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Lato', sans-serif;
     
     margin-top: 0px;
     margin-bottom: 0px;
@@ -39,8 +72,10 @@
     
     font-size: 20px;
 
-    margin-top: 0px;
-    margin-bottom: 5px;
+    margin-top: -19px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .bannerTop a {

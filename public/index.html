@@ -1,115 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="DaalBot is a bot designed to make your server better with features such as Moderation, Tickets, Logging, Self roles and much more!">
-    <title>DaalBot</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>DaalBot</title>
+        <link rel="stylesheet" href="./css/home.css">
+        <link rel="icon" href="https://pinymedia.web.app/DaalBotTransparent.png">
+    </head>
+    <body>
+        <script defer src="./js/home.js"></script>
+        <script src="https://kit.fontawesome.com/6da437eda5.js" crossorigin="anonymous"></script>
 
-    <!-- Import CSS files -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./navbar.css">
-    <link rel="stylesheet" href="./scrollbar.css">
-    <link rel="stylesheet" href="./index.css">
+        <div class="navbar">
+            <a href="/">Home</a>
+            <a href="/Invite">Invite</a>
+            <a href="https://lnk.daalbot.xyz/HQ">Support</a>
+            <a href="/Dashboard">Dashboard</a>
+        </div>
+        <div class="bannerTop">
+            <div class="center">
+                <h1>DaalBot</h1><br/><br/>
+                <a href="/Invite">Invite</a>
+                <a href="https://docs.daalbot.xyz">Docs</a>
+            </div>
+        </div>
+        <div class="section1">
+            <img src="https://pinymedia.web.app/DaalBotSquare.png" alt="DaalBot" width="150px" height="150px">
+            <h1>About DaalBot</h1>
+            <p>DaalBot is a <a href="https://github.com/NotPiny/DaalBot" style="text-decoration: none;">open source</a> multipurpose discord bot with features to help make your server better</p>
+        </div>
+        <div class="section1-2transfer"></div>
+        <div class="featuressection">
+            <h1>Features</h1>
+            <div class="feature">
+                <h2>Self Roles</h2>
+                <div class="feature-description"><p>Allow members to give themselves roles in the server with customizable menus</p></div>
+                <img src="https://pinymedia.web.app/daalbot/website/SelfRole.png" alt="Image containing self role menu from daalbot">
+            </div>
+            <div class="feature">
+                <h2>Welcome Messages</h2>
+                <div class="feature-description"><p>Send a welcome message to new members in your server</p></div>
+                <img src="https://pinymedia.web.app/daalbot/website/Welcome.png" alt="Image containing welcome message from daalbot">
+            </div>
+            <div class="feature">
+                <h2>Social feeds</h2>
+                <div class="feature-description"><p>Get updates from your favorite social media accounts in your server</p></div>
+                <img src="https://pinymedia.web.app/daalbot/website/Socials.png" alt="Image containing a twitch social alert from daalbot">
+            </div>
+            <div class="feature">
+                <h2><a href="/Features">And more!</a></h2>
+                <div class="feature-description"><p>Click the text above to find out about more features in daalbot</p></div>
+            </div>
+        </div>
 
-    <!-- Add favicon to site -->
-    <link rel="icon" href="https://pinymedia.web.app/DaalbotCircle.ico" type="image/x-icon" />
+        <div class="invitesection">
+            <h1>Invite</h1>
+            <p>Click the button below to invite DaalBot to your server</p><br/>
+            <a href="/Invite"><p>Invite</p></a><br/>
+        </div>
 
-    <!-- Make embed for site when someone pastes link -->
-    <meta property="og:title" content="DaalBot">
-    <meta property="og:description" content="DaalBot is a bot designed to make your server better with features such as Moderation, Tickets, Logging, Self roles and much more!.">
-    <meta property="og:image" content="https://pinymedia.web.app/Daalbot.png">
-    <meta property="og:url" content="https://daalbot.xyz">
+        <div class="footer-transfer"></div>
 
-    <!-- Add meta tags for Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="https://daalbot.xyz">
-    <meta name="twitter:creator" content="@DaalBot">
-    <meta name="twitter:title" content="DaalBot">
-    <meta name="twitter:description" content="DaalBot is a bot designed to make your server better with features such as Moderation, Tickets, Logging, Self roles and much more!.">
-    <meta name="twitter:image" content="https://pinymedia.web.app/Daalbot.png">
-
-    <!-- Add meta tags for Google -->
-    <meta itemprop="name" content="DaalBot">
-    <meta itemprop="description" content="DaalBot is a bot designed to make your server better with features such as Moderation, Tickets, Logging, Self roles and much more!.">
-    <meta itemprop="image" content="https://pinymedia.web.app/Daalbot.png">
-    <meta property="og:locale" content="en_GB"/>
-  </head>
-  <body>
-    <script defer src="./index.js"></script>
-    <script defer src="./sitewide.js"></script>
-
-    <!-- Navbar -->
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/About">About</a></li>
-      <li><a href="/FAQ">FAQ</a></li>
-      <li><a href="/Invite">Invite</a></li>
-      <li style="float:right"><a href="/Dashboard">Dashboard</a></li>
-    </ul>
-    <div class="section">
-      <h2>About</h2>
-      <p>
-        DaalBot is a bot that is designed to make your server better with features such as Moderation, Automation, Ticket System and much more!<br/><br/>DaalBot is currently in <span id="serverAmount"></span> servers.
-      </p>
-    </div>
-    <table>
-      <tr>
-        <th style="width:50%">Comparison</th>
-        <th>DaalBot</th>
-        <th>YAGPDB</th>
-        <th>Mee6</th>
-        <th>Dyno</th>
-      </tr>
-      <tr>
-        <td>Open source</td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-remove"></i></td>
-        <td><i class="fa fa-remove"></i></td>
-      </tr>
-      <tr>
-        <td>Fully free</td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-remove"></i></td>
-        <td><i class="fa fa-remove"></i></td>
-        <td><i class="fa fa-remove"></i></td>
-      </tr>
-      <tr>
-        <td>Logging</td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-check"></i></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Autorole</td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-check"></i></td>
-      </tr>
-      <tr>
-        <td>Dropdown roles</td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-remove"></i></td>
-        <td><i class="fa fa-remove"></i></td>
-        <td><i class="fa fa-check"></i></td>
-      </tr>
-      <tr>
-        <td>Tickets</td>
-        <td><i class="fa fa-check"></i></td>
-        <td><i class="fa fa-remove"></i></td>
-        <td><i class="fa fa-remove"></i></td>
-        <td><i class="fa fa-check"></i></td>
-      </tr>
-    </table><br/>
-    <div class="section-bottom">
-      <a href="/Issues" class="link">Report a issue</a>
-      <a href="/Invite" class="link">Invite DaalBot</a>
-      <a href="https://lnk.daalbot.xyz/HQ" class="link">DaalBot HQ</a>
-      <a href="/Github" class="link">Github</a>
-    </div>
-  </body>
+        <div class="footer">
+            <h2>Links</h2>
+            <div class="footer-links">
+                <button onclick="onButtonClick('Github')" class="footer-link">
+                    <i class="fa-brands fa-github fa-xl" style="color: #ffffff;"></i>
+                    <p>Github</p>
+                </button>
+            </div>
+        </div>
+    </body>
 </html>
