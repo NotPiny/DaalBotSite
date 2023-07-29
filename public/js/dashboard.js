@@ -1,8 +1,8 @@
-alert('This doesnt exist yet')
-window.location.href = '/'
+// alert('This doesnt exist yet')
+// window.location.href = '/'
 
-// if (localStorage.getItem('dashboard-token') === null) {
-//     window.location.href = '/Dashboard/Login'
-// } else {
-//     window.location.href = '/Dashboard/Select'
-// }
+if (localStorage.getItem('accesscode')) {
+    window.location.href = '/Dashboard/Landing';
+} else {
+    window.location.href = '/Dashboard/Login';
+}
