@@ -27,7 +27,7 @@ const modules = [
     {
         name: 'XP/Levels',
         description: 'Manage XP and Level rewards for your server with ease.',
-        page: 'temp'
+        page: 'XP'
     }
 ]
 
