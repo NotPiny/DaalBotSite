@@ -50,7 +50,7 @@ h3 {
 
 .controls {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 0.15rem;
     margin: 1rem;
 

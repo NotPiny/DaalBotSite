@@ -13,6 +13,7 @@
     <!-- JS stuff :) -->
     <script src="/js/dashboard/Server/XP/rewards.js"></script>
 
+    <!-- Popups -->
     <div class="popup" id="addpopup">
         <div class="popup-content">
             <form id="addpopupform" onsubmit="addPopupSubmit(event)">
@@ -32,25 +33,7 @@
         </div>
     </div>
 
-    <div class="popup" id="editpopup">
-        <div class="popup-content">
-            <form id="editpopupform" onsubmit="editPopupSubmit(event)">
-                <h1 id="editPopupTitle">Edit reward for level {LEVEL}</h1><br/><br/><br/>
-                <div class="input">
-                    <label for="level">Level</label><br/><br/>
-                    <input type="number" name="level" id="editRewardPopupLevel" disabled required>
-                </div><br/><br/>
-                <div class="input">
-                    <label for="role">Role</label><br/><br/>
-                    <select name="role" id="editRewardPopupRole" required>
-                        <option value="" disabled selected>Select a role</option>
-                    </select>
-                </div><br/><br/>
-                <input type="submit" value="Edit" class="formSubmitButton">
-            </form>
-        </div>
-    </div>
-
+    <!-- Panel -->
     <div class="panel">
         <i class="fa-solid fa-arrow-left backarrow" style="color: #fff;" onclick="back()"></i>
         <h1></i> Rewards</h1>
@@ -58,15 +41,11 @@
         <div class="controls">
             <div class="reward-action" id="add" onclick="selectAction('add')">
                 <i class="fa-solid fa-plus"></i>
-                <p>Add</p>
+                <p>Add/Edit</p>
             </div>
             <div class="reward-action" id="remove" onclick="selectAction('remove')">
                 <i class="fa-solid fa-minus"></i>
                 <p>Remove</p>
-            </div>
-            <div class="reward-action" id="edit" onclick="selectAction('edit')">
-                <i class="fa-solid fa-edit"></i>
-                <p>Edit</p>
             </div>
         </div>
 

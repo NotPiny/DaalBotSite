@@ -77,6 +77,41 @@ async function extractRewardData(data) {
     return rewards;
 }
 
+class Row {
+    /**
+     * @param {String} level 
+     */
+    constructor(level) {
+        /**
+         * @type {String}
+         */
+        this.level = level;
+
+        // Find the row
+        const table = document.getElementById('rewards');
+        const rows = table.getElementsByTagName('tr');
+
+        for (const row of rows) {
+            if (row.getElementsByTagName('td')[0].innerText == level) {
+                this.row = row;
+            }
+        }
+        
+        /**
+         * @type {string}
+        */
+        this.role = this.row.getElementsByTagName('td')[1].innerText;
+    }
+
+    /**
+     * @returns {Promise<HTMLTableRowElement>}
+     */
+    async getElement() {
+        return new Promise(resolve => {
+            resolve(this.row);
+        })
+    }
+}
 async function updateRewardText() {
     const data = await getCurrentRewardsRaw(guild);
     const rewards = await extractRewardData(data);
@@ -96,8 +131,6 @@ async function updateRewardText() {
         row.addEventListener('click', () => {
             if (selectedAction == 'remove') {
                 removeReward(reward.level, row);
-            } else if (selectedAction == 'edit') {
-                editReward(reward.level, reward.role, row);
             }
         })
 
@@ -178,28 +211,20 @@ function sortTable() {
 
 function selectAction(action) {
     selectedAction = action;
-
-    alert('This feature is not yet implemented. Please check back later.')
-    // switch (action) {
-    //     case 'add':
-    //         openAddRewardModal();
-    //         break;
-    //     case 'remove':
-    //         document.getElementById('add').classList.remove('selected');
-    //         document.getElementById('remove').classList.add('selected');
-    //         document.getElementById('edit').classList.remove('selected');
-    //         break;
-    //     case 'edit':
-    //         document.getElementById('add').classList.remove('selected');
-    //         document.getElementById('remove').classList.remove('selected');
-    //         document.getElementById('edit').classList.add('selected');
-    //         break;
-    //     case null:
-    //         document.getElementById('add').classList.remove('selected');
-    //         document.getElementById('remove').classList.remove('selected');
-    //         document.getElementById('edit').classList.remove('selected');
-    //         break;
-    // }
+    
+    switch (action) {
+        case 'add':
+            openAddRewardModal();
+            break;
+        case 'remove':
+            document.getElementById('add').classList.remove('selected');
+            document.getElementById('remove').classList.add('selected');
+            break;
+        case null:
+            document.getElementById('add').classList.remove('selected');
+            document.getElementById('remove').classList.remove('selected');
+            break;
+    }
 }
 
 function openAddRewardModal() {
@@ -249,57 +274,6 @@ function removeReward(level, row) {
 
     // Remove the row from the table
     row.remove();
-}
-
-function editReward(level) {
-    openEditRewardModal(level); // Open the modal with the level pre-filled
-}
-
-function openEditRewardModal(level) {
-    document.getElementById('editpopup').style.display = 'block';
-    document.getElementById('edit').classList.remove('selected');
-    selectAction(null)
-
-    populateEditPopupSelectMenu(level);
-}
-
-async function populateEditPopupSelectMenu(level) {
-    const roles = await getGuildRoles();
-
-    document.getElementById('editPopupTitle').innerText = document.getElementById('editPopupTitle').innerText.replace('{LEVEL}', level);
-
-    const levelSelectMenu = document.getElementById('editRewardPopupLevel');
-    levelSelectMenu.value = level;
-
-    const selectMenu = document.getElementById('editRewardPopupRole');
-
-    roles.forEach(role => {
-        const option = document.createElement('option');
-        option.innerText = role.name;
-        option.value = role.id;
-
-        selectMenu.add(option);
-    });
-}
-
-function editPopupSubmit(event) {
-    event.preventDefault(); // Prevent reloading
-    document.getElementById('editpopup').style.display = 'none';
-    const role = document.getElementById('editRewardPopupRole').value;
-    const level = document.getElementById('editRewardPopupLevel').value;
-
-    fetch(`https://api.daalbot.xyz/dashboard/xp/reward?guild=${guild}&level=${level}`, {
-        method: 'POST',
-        headers: {
-            'authorization': localStorage.getItem('accesscode'),
-            'data': JSON.stringify({name: level, value: role})
-        }
-    })
-    .then(() => {
-        const table = document.getElementById('rewards');
-        table.innerHTML = `<tr><th>Level</th><th>Role</th></tr>`; // Clear the table
-        updateRewardText();
-    })
 }
 
 updateRewardText();
