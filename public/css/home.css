@@ -155,6 +155,10 @@
 
 .invitesection a p {
     padding-top: 6px;
+
+    text-align: center;
+
+    margin: auto;
 }
 
 .invitesection p {
@@ -166,9 +170,7 @@
     margin-top: 0px;
     margin-bottom: 0px;
 
-    margin: auto;
-
-    width: 50%;
+    width: 60%;
 }
 
 .footer-transfer {
@@ -230,4 +232,6 @@
     background-color: #232425;
 
     padding: 15px;
+
+    cursor: pointer;
 }

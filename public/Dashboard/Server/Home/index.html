@@ -8,6 +8,23 @@
 </head>
 <body>
     <script defer src="/js/dashboard/Server/home.js"></script>
+    <div id="popup-overlay"></div>
+    <div id="setup-popup">
+        <h1 id="setup-popup-header">Finish setting up {GUILDNAME}</h1>
+        <p id="setup-popup-paragraph">DaalBot is almost ready to go! Just a few more things to do.</p>
+        <div id="setup-popup-extra">
+            <select id="alert-channel-selector" class="channel-selector">
+                <option value="0" selected disabled style="display: none;">Select a channel</option>
+                <!-- Loaded in by JS -->
+            </select>
+        </div>
+        <div class="popup-button-container">
+            <button id="setup-popup-button1" class="popup-button">Setup later</button>
+            <button id="setup-popup-button2" class="popup-button">Finish setup</button>
+        </div>
+        <p id="setup-popup-page">1/3</p>
+    </div>
+
     <h1 id="guildnameheader">{GUILDNAME}</h1>
 
     <div id="module-list"></div> <!-- This is where the modules will be loaded into -->

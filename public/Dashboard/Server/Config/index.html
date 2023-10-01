@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DaalBot</title>
+    <link rel="stylesheet" href="/css/Dashboard/Server/Config.css">
+</head>
+<body>
+    <script src="/js/dashboard/Server/Config/index.js"></script>
+    <script src="https://kit.fontawesome.com/6da437eda5.js" crossorigin="anonymous"></script>
+
+    <div class="panel">
+        <i class="fa-solid fa-arrow-left backarrow" style="color: #fff;" onclick="back()"></i>
+        <h1>Config</h1>
+        <!-- Interactions are handled by js so no a tags are needed -->
+        <div class="buttons">
+            <div class="subsection-button" onclick="buttonClicked('alertChannel')">
+                <h3>Alert Channel</h3> <i class="fa-solid fa-arrow-right" style="color: #fff;"></i>
+            </div>
+            <!-- <div class="subsection-button" onclick="buttonClicked('NIM')">
+                <h3>Temp</h3> <i class="fa-solid fa-arrow-right" style="color: #fff;"></i>
+            </div>
+            <div class="subsection-button" onclick="buttonClicked('Config', 'XP')">
+                <h3>Temp</h3> <i class="fa-solid fa-arrow-right" style="color: #fff;"></i>
+            </div> -->
+        </div>
+    </div>
+</body>
+</html>

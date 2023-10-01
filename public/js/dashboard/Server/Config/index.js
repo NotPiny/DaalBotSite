@@ -1,5 +1,10 @@
 const URLParams = new URLSearchParams(window.location.search);
 const guild = URLParams.get('guild');
+const configTab = URLParams.get('tab');
+
+if (configTab != null) {
+    window.location.href = `/Dashboard/Server/Config/${configTab}?guild=${guild}`
+}
 
 function buttonClicked(button, tab) {
     if (button === 'NIM') {
@@ -8,7 +13,7 @@ function buttonClicked(button, tab) {
     } else if (button === 'Config') {
         window.location.href = `/Dashboard/Server/${button}?guild=${guild}${tab ? `&tab=${tab}` : ''}`
     } else {
-        window.location.href = `/Dashboard/Server/XP/${button}?guild=${guild}${tab ? `&tab=${tab}` : ''}`
+        window.location.href = `/Dashboard/Server/Config/${button}?guild=${guild}${tab ? `&tab=${tab}` : ''}`
     }
 }
 
