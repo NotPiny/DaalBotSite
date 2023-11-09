@@ -24,5 +24,5 @@ function generateGuildItem(guild) {
 manageableGuilds.forEach(guild => generateGuildItem(guild))
 
 function guildClicked(guildId) {
-    window.location.href = `/Dashboard/Server?guild=${guildId}&tab=Home`
+    window.location.href = `../Server?guild=${guildId}&tab=Home`
 }

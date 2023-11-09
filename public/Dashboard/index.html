@@ -2,9 +2,36 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Redirecting...</title>
+        <title>Dashboard</title>
     </head>
     <body>
+        <script type="module" src="/shoelace.js"></script>
         <script src="../js/dashboard.js"></script>
+
+        <style>
+            .center {
+                /* Center the div */
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        </style>
+
+        <div class="center">
+            <center><sl-spinner style="font-size: 3rem; --track-width: 10px;" id="loading-icon"></sl-spinner></center>
+            <h3 id="reload-message" style="display: none;">This is taking a while you may want to try reloading the page</h3>
+        </div>
+
+        <div class="center" id="alert" style="display: none;">
+            <sl-alert variant="warning" open>
+                <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Your session has expired</strong><br />
+                    Please login again to continue.<br/>
+                </div>
+                <sl-button id="login">Login</sl-button>
+            </sl-alert>
+        </div>
     </body>
 </html>
