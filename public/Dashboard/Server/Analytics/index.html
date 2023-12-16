@@ -11,12 +11,24 @@
     <script src="https://kit.fontawesome.com/6da437eda5.js" crossorigin="anonymous"></script>
 
     <!-- JS stuff :) -->
-    <script defer src="/js/dashboard//Server/Analytics/page.js"></script>
+    <script type="module" defer src="/js/dashboard//Server/Analytics/page.js"></script>
+    <script type="module" src="/shoelace.js"></script>
 
     <!-- Panel -->
     <div class="panel">
         <i class="fa-solid fa-arrow-left backarrow" style="color: #fff;" onclick="back()"></i>
         <h1>Analytics</h1>
+
+        <!-- Option area -->
+        <div>
+            <sl-switch id="analytics-enabled-switch" size="large">Enabled</sl-switch>
+        </div>
+
+        <!-- Analytics disabled -->
+        <div id="not-setup-page" style="text-align: center; display:none;">
+            <h2>Analytics are disabled</h2>
+            <center><sl-button variant="default" size="large" style="width: 15rem;" id="not-setup-page-enable">Enable analytics</sl-button></center>
+        </div>
     </div>
 </body>
 </html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Loading...</title>
+</head>
+<body>
+    <h1 id="default">
+        Loading paste...
+    </h1>
+
+    <div id="expired" style="display: none;">
+        <h1>Expired</h1>
+        <p>
+            This paste has expired. 
+        </p>
+    </div>
+
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #fff;
+        }
+
+        #expired {
+            /* Center the div */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            /* Border */
+            border-radius: 10px;
+            border: 1px solid #2e2d2d;
+
+            /* Padding */
+            padding: 5em;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 0;
+        }
+    </style>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const pid = urlParams.get('pid');
+        const expiration = parseInt(urlParams.get('ex')); // In milliseconds since epoch
+        const title = document.getElementById('page-title');
+        const now = new Date().getTime();
+
+        if (now > expiration) {
+            // Expired
+            title.innerHTML = 'Paste Expired';
+            document.getElementById('default').style.display = 'none';
+            document.getElementById('expired').style.display = 'block';
+        } else {
+            window.location.href = `https://api.daalbot.xyz/get/public/paste?pid=${pid}`
+        }
+    </script>
+</body>
+</html>

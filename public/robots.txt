@@ -1,0 +1,8 @@
+User-agent: *
+Crawl-delay: 10
+Disallow: /Dashboard/
+Disallow: /Privacy/ 
+
+# No bytedance lol (because lnk.daalbot.xyz/robots.txt redirects to this one and it's annoying)
+User-agent: Bytespider
+Disallow: /
