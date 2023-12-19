@@ -4,7 +4,6 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="https://media.piny.dev/DaalBotTransparent.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>DaalBot</title>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
@@ -12,6 +11,13 @@
 
 		<script>
 			document.body.style.margin = 0; // Remove body margin on all pages
+
+			if (!document.getElementsByTagName('title')[0]) {
+				// Add title tag if not present
+				const title = document.createElement('title');
+				title.innerText = 'DaalBot - Unknown Page';
+				document.head.appendChild(title);
+			}
 		</script>
 
 		<style>

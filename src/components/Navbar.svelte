@@ -1,6 +1,6 @@
 <div class="navbar-button-container">
     <a href="/">Home</a>
-    <a href="/Invite">Invite</a>
+    <a href="https://lnk.daalbot.xyz/Invite">Invite</a>
     <a href="https://lnk.daalbot.xyz/HQ">Support</a>
     <a href="/Dashboard">Dashboard</a>
 </div>
