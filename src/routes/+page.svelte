@@ -23,7 +23,8 @@
     <div class="introduction-features-transfer"/>
     <div class="features">
         <center>
-            <h1 style="font-size: 5rem;">Features</h1>
+            <h1 style="font-size: 5rem; margin-bottom: 0;">Features</h1>
+            <p>A (incomplete) list of features within daalbot</p>
 
             <h2 class="feature-title">Self Roles</h2>
             <p class="feature-description">Allow members to give themselves roles in the server with customizable menus</p>
