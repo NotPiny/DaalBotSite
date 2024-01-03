@@ -9,7 +9,8 @@
         const userData = JSON.parse(localStorage.getItem('user') ?? '{}');
 
         if (userData.guilds) {
-            guilds = userData.guilds;
+            // @ts-ignore
+            guilds = userData.guilds.filter(guild => guild.permissions & 0x8);
         }
 
         document.body.style.backgroundColor = '#2f2f2f';

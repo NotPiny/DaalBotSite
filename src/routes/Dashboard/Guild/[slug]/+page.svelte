@@ -59,7 +59,8 @@
         {:else if selectedCategory === 'social'}
             <Switch options={[
                 { name: 'Twitter', value : 'social/twitter' },
-                { name: 'Twitch', value: 'social/twitch' }
+                { name: 'Twitch', value: 'social/twitch' },
+                { name: 'YouTube', value: 'social/youtube' }
             ]} bind:selected={selectedFeature}/>
         {:else if selectedCategory === 'xp'}
             <Switch options={[

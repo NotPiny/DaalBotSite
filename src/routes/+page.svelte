@@ -18,7 +18,7 @@
             <img src="https://media.piny.dev/DaalBotSquare.png" alt="DaalBot Logo" style="border-radius: 50%; width: 150px; height: 150px; border: 3px solid black"/>
         </center>
         <h1 style="text-align: center; color: white;">About DaalBot</h1>
-        <p style="text-align: center; color: white;">DaalBot is a <a href='https://github.com/NotPiny/Github'>open source</a> multipurpose discord bot with features to help make your server better</p>
+        <p style="text-align: center; color: white;">DaalBot is a <a href='https://github.com/DaalBot/Discord'>open source</a> multipurpose discord bot with features to help make your server better</p>
     </div>
     <div class="introduction-features-transfer"/>
     <div class="features">
@@ -37,7 +37,7 @@
             <h2 class="feature-title">Social Feeds</h2>
             <p class="feature-description">Get updates from your favorite social media accounts* in your server</p>
             <img class="feature-image" style="margin-bottom: 0;" src="https://media.piny.dev/daalbot/website/Socials.png" alt="DaalBot Social Feeds"/>
-            <p style="font-size: 1rem; margin-top: 0; color: gray; margin-bottom: 10rem;">*Currently only supports Twitch and Twitter</p>
+            <p style="font-size: 1rem; margin-top: 0; color: gray; margin-bottom: 10rem;">*Currently only supports Twitch and Youtube</p>
         </center>
     </div>
 
@@ -51,7 +51,7 @@
 
     <div class="footer">
         <p style="font-size: 1.5rem; margin-top: 2rem;" class="footer-made-by-text">Made with ❤️ by <a href="https://piny.dev">Piny</a></p>
-        <p><a href="https://github.com/NotPiny/DaalBot">Github</a> / <a href="/Privacy">Privacy Policy</a></p>
+        <p><a href="https://github.com/DaalBot/Discord">Github</a> / <a href="https://lnk.daalbot.xyz/Privacy">Privacy Policy</a></p>
         <p>Icons from <a href="https://tabler.io/icons">Tabler Icons</a></p>
     </div>
 </div>
