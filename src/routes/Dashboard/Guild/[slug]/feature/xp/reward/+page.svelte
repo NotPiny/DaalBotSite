@@ -7,8 +7,7 @@
     import IconPlus from "$lib/images/svg/icons/plus.svg"
     import IconCross from "$lib/images/svg/icons/cross.svg"
 
-    browser ? document.body.style.backgroundColor = '#2f2f2f' : null;
-    browser ? document.body.style.height = '100%' : null;
+    tools.page.applyStyles();
 
     /**
      * @type {{id: string, name: string, icon: string?, roles: Array<{name: string, id: string}>}}
@@ -246,6 +245,7 @@
         color: white;
     }
 
+    /**
     main {
         display: flex;
         flex-direction: column;
@@ -266,6 +266,7 @@
 
         padding: 2rem;
     }
+    */
 
     table {
         max-height: 5rem;

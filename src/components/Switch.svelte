@@ -1,6 +1,7 @@
 <script>
+    import DevOnly from "./DevOnly.svelte";
     /**
-     * @type {{name: string, value: string}[]}
+     * @type {{name: string, value: string, devOnly?: boolean}[]}
      */
     export let options = [];
 
@@ -46,11 +47,22 @@
 
 <div>
     {#each options as option (option.value)}
+    {#if option.devOnly}
+        <DevOnly>
+            <button 
+                class="option {selected === option.value ? 'selected' : ''}" 
+                on:click={() => selectOption(option)}
+            >
+                {option.name}
+            </button>
+        </DevOnly>
+    {:else}
         <button 
             class="option {selected === option.value ? 'selected' : ''}" 
             on:click={() => selectOption(option)}
         >
             {option.name}
         </button>
+    {/if}
     {/each}
 </div>

@@ -7,7 +7,7 @@ async function extractGuildIDFromURL(url) {
     if (!browser) return '';
 
     let GuildID = url.split("/Dashboard/Guild/")[1];
-    GuildID = GuildID.split("/")[0];
+    if (GuildID.includes("/")) GuildID = GuildID.split("/")[0];
 
     return GuildID;
 }
@@ -28,7 +28,7 @@ async function api_func_call_get(addr) {
     if (!browser) return '';
     
     try {
-        const res = await fetch(`${addr}?guild=${await extractGuildIDFromURL(window.location.href)}`, {
+        const res = await fetch(`${addr}${addr.includes('?') ? '&' : '?'}guild=${await extractGuildIDFromURL(window.location.href)}`, {
             headers: {
                 'Authorization': `${localStorage.getItem("accesscode")}`
             }
@@ -62,7 +62,7 @@ async function api_func_call_post(addr, headers = []) {
     try {
         const headers = new Headers(Object.entries(reqHeaders));
 
-        const res = await fetch(`${addr}?guild=${await extractGuildIDFromURL(window.location.href)}`, {
+        const res = await fetch(`${addr}${addr.includes('?') ? '&' : '?'}guild=${await extractGuildIDFromURL(window.location.href)}`, {
             method: 'POST',
             headers: headers
         })
@@ -106,6 +106,38 @@ async function api_func_call_get_guild_current_roles() {
     return await JSON.parse(res);
 }
 
+async function page_apply_styles() {
+    if (!browser) return;
+
+    document.body.style.backgroundImage = 'linear-gradient(to right bottom, #6200ff, #6c0bf9, #7514f4, #7d1cee, #8323e9, #8724e4, #8b25df, #8e26da, #9022d4, #921fcf, #941bc9, #9517c4)';
+    document.body.style.height = '91.5vh';
+    document.body.style.fontFamily = 'Poppins, sans-serif';
+
+    if (document.getElementsByTagName('style').item(0)) {
+        // @ts-ignore
+        document.getElementsByTagName('style').item(0).innerHTML += `main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+    
+            width: 75%;
+            height: 80%;
+    
+            margin-top: 5rem;
+    
+            margin-left: auto;
+            margin-right: auto;
+    
+            background-color: #1a1b1f;
+    
+            border-radius: 10px;
+    
+            padding: 2rem;
+        }`
+    }
+}
+
 const api = {
     get: api_func_call_get,
     post: api_func_call_post
@@ -113,10 +145,16 @@ const api = {
 
 const guild = {
     getCurrent: api_func_call_get_guild_current,
-    getRoles: api_func_call_get_guild_current_roles
+    getRoles: api_func_call_get_guild_current_roles,
+    extractURL: extractGuildIDFromURL
+}
+
+const page = {
+    applyStyles: page_apply_styles
 }
 
 export default {
     api,
-    guild
+    guild,
+    page
 }

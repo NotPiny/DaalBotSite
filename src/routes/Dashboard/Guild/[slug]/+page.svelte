@@ -3,9 +3,8 @@
     import tools from '$lib/dashboard/tools';
     import Switch from "../../../../components/Switch.svelte";
     import placeholderImg from '$lib/images/placeholder.png';
-
-    if (browser) document.body.style.height = '100%';
-    if (browser) document.body.style.backgroundColor = '#2f2f2f';
+    
+    tools.page.applyStyles();
 
     let selectedCategory = '';
     let selectedFeature = '';
@@ -55,6 +54,7 @@
                 { name: 'Logs', value: 'guild/logs' },
                 { name: 'Tickets', value: 'guild/ticket' },
                 { name: 'Welcoming', value: 'guild/welcome' },
+                { name: 'Events', value: 'guild/events', devOnly: true }
             ]} bind:selected={selectedFeature}/>
         {:else if selectedCategory === 'social'}
             <Switch options={[
@@ -79,23 +79,22 @@
         justify-content: center;
         align-items: center;
 
-        font-family: Poppins, sans-serif;
-
         width: 75%;
-        height: 50%;
-
-        color: white;
+        height: 80%;
 
         margin-top: 5rem;
 
         margin-left: auto;
         margin-right: auto;
 
-        background-color: #3f4d68;
+        background-color: #1a1b1f;
+        color: white;
 
         border-radius: 10px;
 
         padding: 2rem;
+
+        font-family: Poppins, sans-serif;
     }
 
     .guild-info {
