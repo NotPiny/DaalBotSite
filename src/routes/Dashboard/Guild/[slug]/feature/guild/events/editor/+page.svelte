@@ -4,14 +4,19 @@
     </title>
 </svelte:head>
 
-<script lang="ts">
+<script>
     import { onMount } from 'svelte';
 
     export let data;
 
     let editor; // Monaco editor instance
 
-    async function initiateMonacoEditor(readonly = false, value: string) {
+    /**
+     * Initiates the Monaco editor
+     * @param {boolean} readonly
+     * @param {string} value
+     */
+    async function initiateMonacoEditor(readonly = false, value) {
         import('monaco-editor').then(monaco => {
             editor = monaco;
             try {
