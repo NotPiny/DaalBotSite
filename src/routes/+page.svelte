@@ -1,6 +1,6 @@
 <script>
     import Footer from "../components/Footer.svelte";
-import Header from "../components/Header.svelte";
+    import Header from "../components/Header.svelte";
     import Navbar from "../components/Navbar.svelte";
 </script>
 
@@ -44,7 +44,7 @@ import Header from "../components/Header.svelte";
 
     <div class="invite-section">
         <center>
-            <h1 style="font-size: 5rem; margin-bottom: 0;">Invite DaalBot</h1>
+            <h1>Invite DaalBot</h1>
             <p style="font-size: 1.5rem; margin-bottom: 3rem;">Invite DaalBot to your server and start using it's features today!</p>
             <a href="https://lnk.daalbot.xyz/Invite" style="font-size: 1.5rem">Invite DaalBot</a>
         </center>
@@ -115,6 +115,26 @@ import Header from "../components/Header.svelte";
         .feature-image {
             display: none;
         }
+
+        .feature-title {
+            font-size: 2rem;
+        }
+
+        .feature-description {
+            font-size: 1rem;
+        }
+
+        p {
+            margin: 1rem;
+        }
+
+        .invite-section h1 {
+            font-size: 3rem !important;
+        }
+
+        .introduction-features-transfer {
+            height: 100px;
+        }
     }
 
     .invite-section a {
@@ -125,5 +145,10 @@ import Header from "../components/Header.svelte";
         margin: 1rem;
         padding: 1rem;
         font-size: 1.5rem;
+    }
+
+    .invite-section h1 {
+        font-size: 5rem;
+        margin-bottom: 0;
     }
 </style>

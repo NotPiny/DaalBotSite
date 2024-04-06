@@ -1,5 +1,5 @@
 <div class="footer">
-    <p style="font-size: 1.5rem; margin-top: 2rem;" class="footer-made-by-text">Made with ❤️ by <a href="https://piny.dev">Piny</a></p>
+    <p class="footer-made-by-text">Made with ❤️ by <a href="https://piny.dev">Piny</a></p>
     <p><a href="https://github.com/DaalBot/Discord">Github</a> / <a href="https://lnk.daalbot.xyz/Privacy">Privacy Policy</a> / <a href="/Contact">Contact</a></p>
     <p>Icons from <a href="https://tabler.io/icons">Tabler Icons</a></p>
 </div>
@@ -16,7 +16,7 @@
 
         text-align: center;
 
-        position: absolute;
+        position: relative;
         bottom: 0;
     }
 
@@ -29,9 +29,18 @@
         top: 0;
         left: 50%;
         transform: translateX(-50%);
+
+        font-size: 1.5rem;
+        margin-top: 2rem;
     }
 
     .footer-made-by-text a {
         text-decoration: none;
+    }
+
+    @media only screen and (max-width: 800px) {
+        .footer-made-by-text {
+            font-size: 1.15rem;
+        }
     }
 </style>
