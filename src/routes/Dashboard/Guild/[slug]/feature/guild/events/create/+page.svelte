@@ -108,7 +108,13 @@
             {/each}
         </select><br/>
 
-        <button type="submit">Create</button>
+        <button type="submit" on:click={
+            () => {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        }>Create</button>
     </form>
 </main>
 

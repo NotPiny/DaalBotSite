@@ -74,4 +74,24 @@
         /* background-color: black;
         opacity: 0.5; */
     }
+
+    @media only screen and (max-width: 768px) {
+        .guilds {
+            margin-top: 5rem;
+            margin-bottom: 5rem;
+            margin-left: 2rem;
+            margin-right: 2rem;
+        }
+
+        .guild {
+            width: 25rem;
+            height: 7.5rem;
+
+            align-items: center;
+        }
+
+        .guild h2 {
+            font-size: 1.75rem;
+        }
+    }
 </style>
