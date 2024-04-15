@@ -5,11 +5,42 @@
 </svelte:head>
 
 <script>
+    import { browser } from '$app/environment';
     import { onMount } from 'svelte';
 
+    // @ts-ignore
     export let data;
 
+    // @ts-ignore
     let editor; // Monaco editor instance
+
+    let isMobile = true;
+
+    async function saveEvent() {
+        // @ts-ignore
+        const moneditor = editor.editor.getModels()[0];
+        const value = moneditor.getValue();
+        
+        // Save the value
+        console.log('Saving...', value)
+
+        const urlSearchParams = new URLSearchParams(window.location.search);
+
+        fetch(`https://api.daalbot.xyz/dashboard/events/write?guild=${data.slug}&data=${encodeURIComponent(value)}&id=${urlSearchParams.get('id')}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `${localStorage.getItem('accesscode')}`
+            },
+        }).then(res => res.json()).then(data => {
+            if (data.error) {
+                console.error(data.error);
+            } else {
+                console.log('Saved!');
+            }
+        }).catch(err => {
+            console.error(err);
+        });
+    }
 
     /**
      * Initiates the Monaco editor
@@ -41,33 +72,11 @@ if (message.channel.name === "counting") {
                 readOnly: readonly,
             });
 
-            // Listen for ctrl + s to save
+            // Save event on Ctrl + S
             window.addEventListener('keydown', (e) => {
                 if (e.ctrlKey && e.key === 's') {
                     e.preventDefault();
-                    // @ts-ignore
-                    const editor = monaco.editor.getModels()[0];
-                    const value = editor.getValue();
-                    
-                    // Save the value
-                    console.log('Saving...', value)
-
-                    const urlSearchParams = new URLSearchParams(window.location.search);
-
-                    fetch(`https://api.daalbot.xyz/dashboard/events/write?guild=${data.slug}&data=${encodeURIComponent(value)}&id=${urlSearchParams.get('id')}`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `${localStorage.getItem('accesscode')}`
-                        },
-                    }).then(res => res.json()).then(data => {
-                        if (data.error) {
-                            console.error(data.error);
-                        } else {
-                            console.log('Saved!');
-                        }
-                    }).catch(err => {
-                        console.error(err);
-                    });
+                    saveEvent();
                 }
             });
         });
@@ -90,10 +99,45 @@ if (message.channel.name === "counting") {
 
         // @ts-ignore
         document.getElementById('please-wait').remove();
+
+        // Set isMobile
+        isMobile = navigator.userAgent.match(/Android|iPhone|iPad/i) !== null;
+
+        if (isMobile) {
+            alert('Hey! It seems you are using a mobile device. The save button is at the bottom of the page. Although this is usable, it is recommended to use a computer for a better experience.')
+        } else if (!localStorage.getItem('events_seen_computer_save_prompt')) {
+            alert('Hey! Just a heads up, you can save the event by pressing Ctrl + S.');
+            localStorage.setItem('events_seen_computer_save_prompt', 'true');
+        }
     });
 </script>
 
 <style>
+    #mobile-save-button {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        background-color: #1e1e1e;
+        color: white;
+        display: flex;
+        z-index: 100;
+        justify-content: center;
+    }
+
+    #mobile-save-button button {
+        width: 75%;
+        background-color: #252525;
+        color: white;
+
+        font-size: 1rem;
+
+        border: 5px solid #ffffff;
+        border-radius: 5px;
+        padding: 1rem;
+    }
+
     #editor {
         width: 100%;
         height: 100vh;
@@ -102,6 +146,9 @@ if (message.channel.name === "counting") {
 <div id="please-wait" class="loading">
     <div class="loading__spinner"></div>
     <h1 class="loading__text" style="color: white; font-family: Poppins, Sans-serif; text-align: center;">Please wait...</h1>
+</div>
+<div id="mobile-save-button" style="{isMobile ? '' : 'display: none;'}">
+    <button on:click={() => saveEvent()}>Save</button>
 </div>
 <div id="editor">
     <!-- Monaco code editor -->
