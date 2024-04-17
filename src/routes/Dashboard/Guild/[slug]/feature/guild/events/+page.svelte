@@ -113,6 +113,14 @@
 <main>
     <h1>Events</h1>
 
+    <!-- <button on:click={() => {
+        if (browser) {
+            window.location.href += '/variables'
+        }
+    }} class="variable-view">
+        Variables
+    </button> -->
+
     <div class="event-list">
         {#each events as event}
             <!-- svelte-ignore a11y-no-static-element-interactions -->

@@ -106,7 +106,7 @@ if (message.channel.name === "counting") {
         if (isMobile) {
             alert('Hey! It seems you are using a mobile device. The save button is at the bottom of the page. Although this is usable, it is recommended to use a computer for a better experience.')
         } else if (!localStorage.getItem('events_seen_computer_save_prompt')) {
-            alert('Hey! Just a heads up, you can save the event by pressing Ctrl + S.');
+            alert('Hey! Just a heads up, you can save the event by pressing Ctrl + S. (You will only see this message once)');
             localStorage.setItem('events_seen_computer_save_prompt', 'true');
         }
     });

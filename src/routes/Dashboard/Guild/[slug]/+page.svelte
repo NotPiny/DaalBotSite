@@ -54,7 +54,7 @@
                 { name: 'Logs', value: 'guild/logs' },
                 { name: 'Tickets', value: 'guild/ticket' },
                 { name: 'Welcoming', value: 'guild/welcome' },
-                { name: 'Events', value: 'guild/events', devOnly: true }
+                { name: 'Events', value: 'guild/events' }
             ]} bind:selected={selectedFeature}/>
         {:else if selectedCategory === 'social'}
             <Switch options={[
