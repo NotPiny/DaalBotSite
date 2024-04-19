@@ -1,7 +1,8 @@
-<script>
+
+    <script>
     import tools from '$lib/dashboard/tools';
     import { onMount } from 'svelte';
-    import Popup from '../../../../../../../components/Popup.svelte';
+    import Popup from '../../../../../../../../../components/Popup.svelte';
     import { browser } from '$app/environment';
 
     onMount(() => {
@@ -16,52 +17,52 @@
      *   description: string,
      *   on: string,
      *   enabled: boolean,
-     * }} Event
+     * }} variable
     */
 
     /**
-     * @type {Array<Event>}
+     * @type {Array<variable>}
      */
-    let events = [];
+    let variables = [];
 
     (async () => {
         if (!browser) return;
-        const response = await tools.api.get('https://api.daalbot.xyz/dashboard/events/entires')
+        const response = await tools.api.get('https://api.daalbot.xyz/dashboard/events/variables')
 
         const data = JSON.parse(response);
 
-        events = data;
-    })()
+        variables = data;
+    })();
 
     /**
-     * @param {Event} event
+     * @param {variable} variable
      */
-    async function showInfo(event) {
+    async function showInfo(variable) {
         if (!browser) return;
         const infoPopup = document.getElementById('popup-info');
 
-        selectedEvent = event;
+        selectedVariable = variable;
 
         if (!infoPopup) return;
         infoPopup.style.display = 'block';
     }
 
     /**
-     * @type {Event | null}
+     * @type {variable | null}
     */
-    let selectedEvent = null;
+    let selectedVariable = null;
 
-    async function deleteEvent() {
+    async function deletevariable() {
         if (!browser) return;
-        const confirmation = confirm('Are you sure you want to delete this event?');
+        const confirmation = confirm('Are you sure you want to delete this variable?');
 
         if (confirmation) {
-            console.log('Deleting event');
+            console.log('Deleting variable');
         }
 
-        // Tell API to delete event
-        console.log('Deleting event...')
-        await fetch(`https://api.daalbot.xyz/dashboard/events/remove?guild=${await tools.guild.extractURL(window.location.href)}&id=${selectedEvent?.id}`, {
+        // Tell API to delete variable
+        console.log('Deleting variable...')
+        await fetch(`https://api.daalbot.xyz/dashboard/events/removevar?guild=${await tools.guild.extractURL(window.location.href)}&id=${selectedVariable?.id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `${localStorage.getItem('accesscode')}`
@@ -73,22 +74,22 @@
 </script>
 
 <Popup id="info">
-    <h1>{selectedEvent?.name}</h1>
-    <p>{selectedEvent?.description}</p>
-    <p>Enabled: {selectedEvent?.enabled ? 'Yes' : 'No'}</p>
-    <p>On: {selectedEvent?.on}</p>
+    <h1>{selectedVariable?.name}</h1>
+    <p>{selectedVariable?.description}</p>
+    <p>Enabled: {selectedVariable?.enabled ? 'Yes' : 'No'}</p>
+    <p>On: {selectedVariable?.on}</p>
 
     <p style="text-align: center">
         <button class="popup-button" on:click={async() => {
             if (!browser) return;
     
-            const currentState = selectedEvent?.enabled;
+            const currentState = selectedVariable?.enabled;
             // @ts-ignore
-            selectedEvent.enabled = !currentState;
+            selectedVariable.enabled = !currentState;
 
-            // Tell API to update event
-            console.log('Toggling event state...')
-            await fetch(`https://api.daalbot.xyz/dashboard/events/toggle?guild=${await tools.guild.extractURL(window.location.href)}&id=${selectedEvent?.id}&state=${selectedEvent?.enabled}`, {
+            // Tell API to update variable
+            console.log('Toggling variable state...')
+            await fetch(`https://api.daalbot.xyz/dashboard/variables/toggle?guild=${await tools.guild.extractURL(window.location.href)}&id=${selectedVariable?.id}&state=${selectedVariable?.enabled}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `${localStorage.getItem('accesscode')}`
@@ -102,32 +103,24 @@
     
         <button class="popup-button" on:click={async() => {
             if (browser) {
-                window.location.href += `/edit#${selectedEvent?.id}`
+                window.location.href += `/edit#${selectedVariable?.id}`
             }
         }}>Edit</button><br/>
     
-        <button class="popup-button" on:click={() => deleteEvent()}>Delete</button>
+        <button class="popup-button" on:click={() => deletevariable()}>Delete</button>
     </p>
 </Popup>
 
 <main>
-    <h1>Events</h1>
+    <h1>Variables</h1>
 
-    <!-- <button on:click={() => {
-        if (browser) {
-            window.location.href += '/variables'
-        }
-    }} class="variable-view">
-        Variables
-    </button> -->
-
-    <div class="event-list">
-        {#each events as event}
+    <div class="variable-list">
+        {#each variables as variable}
             <!-- svelte-ignore a11y-no-static-element-interactions -->
-            <div class="event" id="event-{event.id}" on:mousedown={() => showInfo(event)}>
-                <span class="enabled-indicator enabled-indicator-{event.enabled}" />
-                <h3 style="margin-right: 1em">{event.name}</h3>
-                <p class="on-text">on {event.on}</p>
+            <div class="variable" id="variable-{variable.id}" on:mousedown={() => showInfo(variable)}>
+                <span class="enabled-indicator enabled-indicator-{variable.enabled}" />
+                <h3 style="margin-right: 1em">{variable.name}</h3>
+                <p class="on-text">on {variable.on}</p>
             </div>
         {/each}
     </div>
@@ -166,13 +159,13 @@
         padding: 2rem;
     }
 
-    .event-list {
+    .variable-list {
         display: flex;
         flex-direction: column;
         gap: 1rem;
     }
 
-    .event {
+    .variable {
         display: flex;
         flex-direction: row;
         gap: 0.5rem;
