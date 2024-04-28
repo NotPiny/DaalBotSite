@@ -1,9 +1,12 @@
 <script>
     import { browser } from "$app/environment";
     import tools from '$lib/dashboard/tools';
+    import { dismissables } from '$lib/tools.js';
+    import { onMount } from 'svelte';
     import Switch from "../../../../components/Switch.svelte";
     import placeholderImg from '$lib/images/placeholder.png';
     
+    // This is all like super old and im lowkey scared to touch it
     tools.page.applyStyles();
 
     let selectedCategory = '';
@@ -29,6 +32,15 @@
             if (browser) window.location.href = `/Dashboard/Guild/${guild.id}/feature/${selectedFeature}`; // selectedFeature should include the category as well (e.g. guild/autorole)
         }
     }
+
+    // Okay this code should be somewhat nicer
+    onMount(async() => {
+        const isMobile = window.navigator.userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i); // This works i guess first iteration of mobile detection used innerWidth but i moreso want to know if they have a keyboard not a small screen
+        
+        if (!isMobile && !(await dismissables.seen('dashboard-search'))) {
+            alert('Hey, You can use Ctrl + K to search through features now on any dashboard page!')
+        }
+    });
 </script>
 
 <main>

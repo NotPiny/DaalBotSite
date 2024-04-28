@@ -1,7 +1,6 @@
 <script>
     import { onMount } from 'svelte';
     import { browser } from '$app/environment'; 
-    import ProdOnly from '../../../../components/ProdOnly.svelte';
     import DevOnly from '../../../../components/DevOnly.svelte';
 
     /**
@@ -41,12 +40,6 @@
         window.location.href = `${returnURL?.href}&code=${allow ? localStorage.getItem('accesscode') : 'denied'}`
     }
 </script>
-
-<ProdOnly>
-    <main>
-        <h1>This page isnt out yet 💀</h1>
-    </main>
-</ProdOnly>
 
 <DevOnly>
     <main>
