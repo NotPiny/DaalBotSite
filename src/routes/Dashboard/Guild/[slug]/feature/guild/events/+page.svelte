@@ -72,6 +72,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Events - Dashboard</title>
+</svelte:head>
+
 <Popup id="info">
     <h1>{selectedEvent?.name}</h1>
     <p>{selectedEvent?.description}</p>

@@ -1,6 +1,9 @@
 // Just a bunch of tools
 import { browser } from "$app/environment";
 
+/**
+ * @type {"server" | "mobile" | "desktop"}
+ */
 let platform = !browser ? 'server' :
     navigator.userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i) ? 'mobile' :
     'desktop';
@@ -23,9 +26,11 @@ const notices_seen = (noticeName) => {
 
 const dismissables = {
     seen: notices_hasseen,
-    set: notices_seen
+    set: notices_seen,
+    reset: () => localStorage.setItem('notices', '[]')
 }
 
 export {
-    dismissables
+    dismissables,
+    platform
 };

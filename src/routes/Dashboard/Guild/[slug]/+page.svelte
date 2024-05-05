@@ -39,9 +39,14 @@
         
         if (!isMobile && !(await dismissables.seen('dashboard-search'))) {
             alert('Hey, You can use Ctrl + K to search through features now on any dashboard page!')
+            dismissables.set('dashboard-search')
         }
     });
 </script>
+
+<svelte:head>
+    <title>{guild.name} - Dashboard</title>
+</svelte:head>
 
 <main>
     <div class="guild-info">

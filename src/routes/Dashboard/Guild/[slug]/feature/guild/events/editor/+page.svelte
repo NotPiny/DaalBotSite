@@ -1,6 +1,6 @@
 <svelte:head>
     <title>
-        Event Editor
+        Event Editor - Dashboard
     </title>
 </svelte:head>
 
@@ -142,14 +142,30 @@ if (message.channel.name === "counting") {
         width: 100%;
         height: 100vh;
     }
+
+    #please-wait {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #1e1e1e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+    }
 </style>
 <div id="please-wait" class="loading">
-    <div class="loading__spinner"></div>
-    <h1 class="loading__text" style="color: white; font-family: Poppins, Sans-serif; text-align: center;">Please wait...</h1>
+    <sl-spinner style="font-size: 250px; --track-width: 25px; --indicator-color: var(--colour-primary);"></sl-spinner>
 </div>
-<div id="mobile-save-button" style="{isMobile ? '' : 'display: none;'}">
-    <button on:click={() => saveEvent()}>Save</button>
-</div>
+
+{#if isMobile}
+    <div id="mobile-save-button">
+        <button on:click={() => saveEvent()}>Save</button>
+    </div>
+{/if}
+
 <div id="editor">
     <!-- Monaco code editor -->
 </div>

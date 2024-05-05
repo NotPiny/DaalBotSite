@@ -110,7 +110,7 @@ async function page_apply_styles() {
     if (!browser) return;
 
     document.body.style.backgroundImage = 'linear-gradient(to right bottom, #6200ff, #6c0bf9, #7514f4, #7d1cee, #8323e9, #8724e4, #8b25df, #8e26da, #9022d4, #921fcf, #941bc9, #9517c4)';
-    document.body.style.height = '91.5vh';
+    document.body.style.height = '100vh';
     document.body.style.fontFamily = 'Poppins, sans-serif';
 
     if (document.getElementsByTagName('style').item(0)) {
@@ -134,7 +134,8 @@ async function page_apply_styles() {
             border-radius: 10px;
     
             padding: 2rem;
-        }`
+        }
+        `
     }
 }
 

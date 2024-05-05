@@ -1,0 +1,296 @@
+<script>
+    import { browser } from "$app/environment";
+    import { onMount } from "svelte";
+    import tools from "$lib/dashboard/tools";
+
+    export let menuExpanded = false;
+    let guildId = '0';
+    let pathName = `/Dashboard/Guild/0/`;
+    let drawerOpen = false;
+    let currentCategory = 'None';
+
+    async function toggleMenu() {
+        menuExpanded = !menuExpanded;
+
+        if (!browser) return;
+        if (await checkMobile()) return;
+
+        // Button will only be clickable by humans if the menu is already closed so we can open it
+        const drawer = document.querySelector('.drawer-placement-start');
+        if (drawer) {
+            // @ts-ignore
+            drawer.open = true;
+        }
+    }
+
+    async function checkMobile() {
+        if (!browser) return false;
+        // Check if the user is on a mobile device using the user agent
+        let isMobile = /iPhone|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 800;
+
+        // If the user is on a mobile device, add a background to the navbar
+        if (isMobile) {
+            if (document.body) {
+                document.body.style.backgroundColor = "#2f2f2f";
+            }
+        }
+
+        return isMobile;
+    }
+
+    let isMobile = false;
+
+    (async() => {
+        isMobile = await checkMobile();
+    })();
+
+    onMount(async() => {
+        window.addEventListener("resize", checkMobile);
+        pathName = window.location.pathname;
+
+        guildId = await tools.guild.extractURL(window.location.href);
+
+        // Set current category
+        const path = window.location.href;
+        if (!path.includes('feature')) {
+            currentCategory = 'None';
+        } else {
+            // URL will look like /Dashboard/Guild/[[GUILD_ID]]/feature/[[CATEGORY]]/[[FEATURE]]/...
+            const splitPath = path.split('/');
+            currentCategory = splitPath[splitPath.indexOf('feature') + 1];
+        }
+
+        if (!isMobile) {
+            setInterval(async() => {
+                const oldState = drawerOpen;
+                const drawer = document.querySelector('.drawer-placement-start');
+                if (drawer) {
+                    // @ts-ignore
+                    drawerOpen = drawer.open;
+                }
+
+                if (oldState != drawerOpen) {
+                    console.log(`Drawer state changed to ${drawerOpen ? 'open' : 'closed'}`)
+                    menuExpanded = drawerOpen;
+                }
+            }, 750)
+        }
+    });
+
+    const categorys = [
+        'None', // Always put None first
+        'Server',
+        'Social',
+        'XP'
+    ]
+
+    const links = [
+        {
+            text: 'Home',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/',
+            category: 'None'
+        },
+        {
+            text: 'Auto Roles',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/autorole',
+            category: 'Server'
+        },
+        {
+            text: 'Config',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/config',
+            category: 'Server'
+        },
+        {
+            text: 'Events',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/events',
+            category: 'Server'
+        },
+        {
+            text: 'Logs',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/logs',
+            category: 'Server'
+        },
+        {
+            text: 'Tickets',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/ticket',
+            category: 'Server'
+        },
+        {
+            text: 'Welcoming',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/welcome',
+            category: 'Server'
+        },
+        {
+            text: 'Twitch',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/twitch',
+            category: 'Social'
+        },
+        {
+            text: 'Twitter',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/twitter',
+            category: 'Social'
+        },
+        {
+            text: 'YouTube',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/youtube',
+            category: 'Social'
+        },
+        {
+            text: 'Rewards',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/xp/reward',
+            category: 'XP'
+        }
+    ];
+</script>
+
+<div class="ham-button">
+    <button on:click={() => toggleMenu()}>
+        {#if menuExpanded}
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="35"  height="35"  viewBox="0 0 24 24"  fill="none"  stroke="#ffffff"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+        {:else}
+            <svg xmlns="http://www.w3.org/2000/svg"  width="35"  height="35"  viewBox="0 0 24 24"  fill="none"  stroke="#fff"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-menu-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 6l16 0" /><path d="M4 12l16 0" /><path d="M4 18l16 0" /></svg>
+        {/if}
+    </button>
+</div>
+
+{#if menuExpanded}
+    {#if !isMobile}
+        <!-- Desktop -->
+        <sl-drawer label="Dashboard" placement="start" class="drawer-placement-start sl-theme-dark">
+            {#each categorys as category}
+                {#if category == 'None'}
+                    {#each links as link}
+                        {#if link.category == category}
+                            <sl-button href={link.href.replace('[[GUILD_ID]]', guildId)} class:navSelected={pathName == link.href.replace('[[GUILD_ID]]', guildId)} style="width: 100%; text-align: center;">{link.text}</sl-button>
+                        {/if}
+                    {/each}
+                {:else}
+                    <sl-details summary={category} open={currentCategory == category} style="margin-top: 1rem;">
+                        {#each links as link}
+                            {#if link.category == category}
+                                <sl-button href={link.href.replace('[[GUILD_ID]]', guildId)} class:navSelected={pathName == link.href.replace('[[GUILD_ID]]', guildId)} style="width: 100%; text-align: center; margin-top: 0.5em;">{link.text}</sl-button>
+                            {/if}
+                        {/each}
+                    </sl-details>
+                {/if}
+            {/each}
+        </sl-drawer>
+    {:else}
+        <!-- Mobile -->
+        <div class="nav-overlay">
+            <div class="nav-overlay-content">
+                <img src="https://media.piny.dev/DaalBotTransparent.png" alt="DaalBot Logo">
+                {#each categorys as category}
+                    {#if category != 'None'}
+                        <h3>{category}</h3>
+                    {/if}
+                    {#each links as link}
+                        {#if link.category == category}
+                            <!-- <a href={link.href.replace('[[GUILD_ID]]', guildId)} class:navSelected={pathName == link.href.replace('[[GUILD_ID]]', guildId)}>{link.text}</a> -->
+                            <sl-button href={link.href.replace('[[GUILD_ID]]', guildId)} class="sl-theme-dark">{link.text}</sl-button>
+                        {/if}
+                    {/each}
+                {/each}
+            <br/>
+        </div>
+        <div class="nav-overlay-bg"></div>
+    </div>
+{/if}
+{/if}
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+    .ham-button {
+        z-index: 50;
+
+        position: fixed;
+        top: 1rem;
+
+        display: flex;
+        
+        /* Show on left side of screen */
+        left: 1rem;
+    }
+
+    .ham-button button {
+        background-color: transparent;
+        border: none;
+    }
+
+    .ham-button button:hover {
+        cursor: pointer;
+    }
+
+    .nav-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .nav-overlay-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+
+        gap: 0.5rem;
+        font-family: Poppins, sans-serif;
+
+        overflow-y: scroll;
+    }
+
+    .nav-overlay-content img {
+        width: 50px;
+        height: 50px;
+
+        margin-bottom: 1rem;
+
+        margin-top: 10rem;
+    }
+
+    .nav-overlay-bg {
+        /* Radial gradient background */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+
+        background: rgb(7,0,0);
+        /* background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(71,23,182,0.5) 90%); */
+
+        opacity: 0.7;
+
+        pointer-events: none;
+    }
+
+    .navSelected {
+        text-decoration: underline !important;
+        text-decoration-color: var(--colour-primary) !important;
+        text-decoration-thickness: 0.25rem !important;
+        text-underline-offset: 0.45rem;
+    }
+
+    .drawer-placement-start {
+        color: white !important;
+        font-family: Poppins, sans-serif;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+
+        color: white;
+    }
+</style>

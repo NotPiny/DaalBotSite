@@ -92,6 +92,12 @@
     ]
 </script>
 
+<svelte:head>
+    <title>
+        Create Event - Dashboard
+    </title>
+</svelte:head>
+
 <main>
     <h1>Create Event</h1>
     <form>

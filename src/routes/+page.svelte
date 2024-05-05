@@ -9,7 +9,7 @@
 </svelte:head>
 <Navbar />
 <Header title="DaalBot" buttons={[
-    { text: "Home", href: "/" },
+    { text: "Dashboard", href: "/Dashboard" },
     { text: "Invite", href: "https://lnk.daalbot.xyz/Invite" }
 ]} />
 

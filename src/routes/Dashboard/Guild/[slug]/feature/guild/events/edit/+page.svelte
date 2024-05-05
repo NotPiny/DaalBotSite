@@ -21,6 +21,12 @@
     }
 </script>
 
+<svelte:head>
+    <title>
+        Editor Selector - Dashboard
+    </title>
+</svelte:head>
+
 <main>
     <h1 style="margin-bottom: 0.1rem;">Pick a editor</h1>
     <p style="margin-bottom: 5rem;">Please select a editor to use for modifying this event</p>

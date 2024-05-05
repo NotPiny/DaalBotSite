@@ -23,6 +23,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Variables - Dashboard</title>
+</svelte:head>
+
 <Popup id="local">
     <h2 style="text-align: center;">Local variable</h2>
     <p>Local variables are only accessible in the event they are created in</p>

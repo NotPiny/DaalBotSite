@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-    <title>DaalBot - The only discord bot you need</title>
+    <title>DaalBot - Contact</title>
 </svelte:head>
 <Navbar />
 <Header title="Contact" buttons={[
