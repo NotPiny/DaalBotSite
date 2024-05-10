@@ -3,6 +3,17 @@
     import { onMount } from "svelte";
     import tools from "$lib/dashboard/tools";
 
+    // Icons
+    import homeIcon from "$lib/images/svg/icons/home.svg";
+    import usersIcon from "$lib/images/svg/icons/users.svg";
+    import gearIcon from "$lib/images/svg/icons/gear.svg";
+    import routeSquareIcon from "$lib/images/svg/icons/route-square.svg";
+    import listDetailsIcon from "$lib/images/svg/icons/list-details.svg";
+    import ticketIcon from "$lib/images/svg/icons/ticket.svg";
+    import userPlusIcon from "$lib/images/svg/icons/user-plus.svg";
+    import twitchGlitchWhite from "$lib/images/svg/icons/TwitchGlitchWhite.svg";
+    import brandTwitter from "$lib/images/svg/icons/brand-twitter.svg";
+
     export let menuExpanded = false;
     let guildId = '0';
     let pathName = `/Dashboard/Guild/0/`;
@@ -88,47 +99,56 @@
         {
             text: 'Home',
             href: '/Dashboard/Guild/[[GUILD_ID]]/',
-            category: 'None'
+            category: 'None',
+            icon: homeIcon
         },
         {
             text: 'Auto Roles',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/autorole',
-            category: 'Server'
+            category: 'Server',
+            icon: usersIcon
         },
         {
             text: 'Config',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/config',
-            category: 'Server'
+            category: 'Server',
+            icon: gearIcon
         },
         {
             text: 'Events',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/events',
-            category: 'Server'
+            category: 'Server',
+            icon: routeSquareIcon
         },
         {
             text: 'Logs',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/logs',
-            category: 'Server'
+            category: 'Server',
+            icon: listDetailsIcon
         },
         {
             text: 'Tickets',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/ticket',
-            category: 'Server'
+            category: 'Server',
+            icon: ticketIcon
         },
         {
             text: 'Welcoming',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/welcome',
-            category: 'Server'
+            category: 'Server',
+            icon: userPlusIcon
         },
         {
             text: 'Twitch',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/twitch',
-            category: 'Social'
+            category: 'Social',
+            icon: twitchGlitchWhite
         },
         {
             text: 'Twitter',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/twitter',
-            category: 'Social'
+            category: 'Social',
+            icon: brandTwitter
         },
         {
             text: 'YouTube',
@@ -161,14 +181,20 @@
                 {#if category == 'None'}
                     {#each links as link}
                         {#if link.category == category}
-                            <sl-button href={link.href.replace('[[GUILD_ID]]', guildId)} class:navSelected={pathName == link.href.replace('[[GUILD_ID]]', guildId)} style="width: 100%; text-align: center;">{link.text}</sl-button>
+                            <sl-button href={link.href.replace('[[GUILD_ID]]', guildId)} class:navSelected={pathName == link.href.replace('[[GUILD_ID]]', guildId)} style="width: 100%; text-align: center;">
+                                <!-- <img src={link.icon} slot="prefix" alt="{link.text} icon"/> -->
+                                {link.text}
+                            </sl-button>
                         {/if}
                     {/each}
                 {:else}
                     <sl-details summary={category} open={currentCategory == category} style="margin-top: 1rem;">
                         {#each links as link}
                             {#if link.category == category}
-                                <sl-button href={link.href.replace('[[GUILD_ID]]', guildId)} class:navSelected={pathName == link.href.replace('[[GUILD_ID]]', guildId)} style="width: 100%; text-align: center; margin-top: 0.5em;">{link.text}</sl-button>
+                                <sl-button href={link.href.replace('[[GUILD_ID]]', guildId)} class:navSelected={pathName == link.href.replace('[[GUILD_ID]]', guildId)} style="width: 100%; text-align: center; margin-top: 0.5em;">
+                                    <!-- <img src={link.icon} slot="prefix" alt="{link.text} icon"/> -->
+                                    {link.text}
+                                </sl-button>
                             {/if}
                         {/each}
                     </sl-details>
