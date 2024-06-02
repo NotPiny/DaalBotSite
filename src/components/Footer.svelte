@@ -1,7 +1,7 @@
 <div class="footer">
     <p class="footer-made-by-text">Made with ❤️ by <a href="https://piny.dev">Piny</a></p>
     <p><a href="https://github.com/DaalBot/Discord">Github</a> / <a href="https://lnk.daalbot.xyz/Privacy">Privacy Policy</a> / <a href="/Contact">Contact</a></p>
-    <p>Icons from <a href="https://tabler.io/icons">Tabler Icons</a></p>
+    <a href="/Acknowledgements">Acknowledgements</a>
 </div>
 
 <style>

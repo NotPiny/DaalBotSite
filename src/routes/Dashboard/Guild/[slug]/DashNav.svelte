@@ -92,7 +92,8 @@
         'None', // Always put None first
         'Server',
         'Social',
-        'XP'
+        'XP',
+        'Tools'
     ]
 
     const links = [
@@ -159,6 +160,11 @@
             text: 'Rewards',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/xp/reward',
             category: 'XP'
+        },
+        {
+            text: 'Message Builder',
+            href: '/Dashboard/Guild/[[GUILD_ID]]/tools/messagebuilder',
+            category: 'Tools'
         }
     ];
 </script>

@@ -3,12 +3,12 @@
     import { dismissables } from "$lib/tools";
 
     if (browser) {
-
         const accesscode = localStorage.getItem('accesscode');
 
-        if (!accesscode) {
-            window.location.href = import.meta.env.DEV ? 'https://discord.com/api/oauth2/authorize?client_id=1016086353085222993&response_type=code&redirect_uri=https%3A%2F%2Fbot.daalbot.xyz%2Fget%2Fauth%2Ftest%3Fmode%3Dvercel&scope=identify+guilds' : 'https://discord.com/oauth2/authorize?client_id=1016086353085222993&redirect_uri=https%3A%2F%2Fbot.daalbot.xyz%2Fget%2Fauth%2FaccessCode&response_type=code&scope=identify%20guilds';
-        }
+        const Login = () => window.location.href = `https://discord.com/oauth2/authorize?client_id=1016086353085222993&redirect_uri=https%3A%2F%2Fbot.daalbot.xyz%2Fget%2Fauth%2FaccessCode${import.meta.env.DEV ? '%3Fdev%3D1' : ''}&response_type=code&scope=identify%20guilds`;
+
+        if (!accesscode)
+            Login();
 
         // Check if the bearer token is valid
         (async() => {
@@ -32,7 +32,7 @@
                     throw new Error('Invalid bearer token'); // This will be caught by the catch block
                 }
             } catch {
-                window.location.href = import.meta.env.DEV ? 'https://discord.com/api/oauth2/authorize?client_id=1016086353085222993&response_type=code&redirect_uri=https%3A%2F%2Fbot.daalbot.xyz%2Fget%2Fauth%2Ftest%3Fmode%3Dvercel&scope=identify+guilds' : 'https://discord.com/oauth2/authorize?client_id=1016086353085222993&redirect_uri=https%3A%2F%2Fbot.daalbot.xyz%2Fget%2Fauth%2FaccessCode&response_type=code&scope=identify%20guilds';
+                Login();
             }
         })();
     }

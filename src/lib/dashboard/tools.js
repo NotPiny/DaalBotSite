@@ -1,4 +1,5 @@
 import { browser } from "$app/environment";
+import { APIChannel, APIGuild } from './types';
 
 /**
  * @param {string} url
@@ -77,23 +78,26 @@ async function api_func_call_post(addr, headers = []) {
 }
 
 /**
- * @returns {Promise<{id: string, name: string, icon: string?, roles: Array<{name: string, id: string}>}>}
+ * @returns {Promise<APIGuild | null>}
 */
-async function api_func_call_get_guild_current() {
-    if (!browser) return {
-        id: '',
-        name: '',
-        icon: '',
-        roles: []
-    };
+async function api_func_call_get_guild_current(includeChannels = false, includeRoles = false) {
+    if (!browser) return null;
     
     const res = await api_func_call_get('https://api.daalbot.xyz/dashboard/guilds/guild')
 
     let data = await JSON.parse(res);
+    data.roles = null;
+    data.channels = null;
 
-    await timeout(1000); // Rate limit fix
+    if (includeRoles) {
+        await timeout(1000); // Rate limit fix
+        data.roles = await api_func_call_get_guild_current_roles();
+    }
 
-    data.roles = await api_func_call_get_guild_current_roles();
+    if (includeChannels) {
+        await timeout(1000);
+        data.channels = await api_func_call_get_guild_current_channels()
+    }
 
     return data;
 }
@@ -102,6 +106,17 @@ async function api_func_call_get_guild_current_roles() {
     if (!browser) return [];
     
     const res = await api_func_call_get('https://api.daalbot.xyz/dashboard/guilds/roles')
+
+    return await JSON.parse(res);
+}
+
+/**
+ * @returns {Promise<Array<APIChannel>>}
+*/
+async function api_func_call_get_guild_current_channels() {
+    if (!browser) return [];
+    
+    const res = await api_func_call_get('https://api.daalbot.xyz/dashboard/guilds/channels')
 
     return await JSON.parse(res);
 }
@@ -134,6 +149,8 @@ async function page_apply_styles() {
             border-radius: 10px;
     
             padding: 2rem;
+
+            color: white;
         }
         `
     }
@@ -147,6 +164,7 @@ const api = {
 const guild = {
     getCurrent: api_func_call_get_guild_current,
     getRoles: api_func_call_get_guild_current_roles,
+    getChannels: api_func_call_get_guild_current_channels,
     extractURL: extractGuildIDFromURL
 }
 

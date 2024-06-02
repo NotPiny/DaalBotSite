@@ -29,7 +29,7 @@
 
     $: {
         if (selectedCategory != '' && selectedFeature != '') {
-            if (browser) window.location.href = `/Dashboard/Guild/${guild.id}/feature/${selectedFeature}`; // selectedFeature should include the category as well (e.g. guild/autorole)
+            if (browser) window.location.href = `/Dashboard/Guild/${guild.id}/${selectedFeature.startsWith('tools/') ? '' : 'feature/'}${selectedFeature}`; // selectedFeature should include the category as well (e.g. guild/autorole)
         }
     }
 
@@ -61,7 +61,8 @@
         <Switch options={[
             { name: 'Server', value: 'guild' },
             { name: 'Socials', value: 'social' },
-            { name: 'XP', value: 'xp' }
+            { name: 'XP', value: 'xp' },
+            { name: 'Tools', value: 'tools' }
         ]} bind:selected={selectedCategory} /><br/><br/>
 
         {#if selectedCategory === 'guild'}
@@ -82,6 +83,10 @@
         {:else if selectedCategory === 'xp'}
             <Switch options={[
                 { name: 'Rewards', value: 'xp/reward' }
+            ]} bind:selected={selectedFeature}/>
+        {:else if selectedCategory === 'tools'}
+            <Switch options={[
+                { name: 'Message Builder', value: 'tools/messagebuilder' },
             ]} bind:selected={selectedFeature}/>
         {:else}
             <h2>Nothing Selected.</h2>

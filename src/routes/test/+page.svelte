@@ -1,11 +1,19 @@
 <script>
     import DevOnly from '../../components/DevOnly.svelte';
+
+    import store from '$lib/stores/rateHits';
+    import { browser } from '$app/environment';
 </script>
 
 <main>
     <h1>Test Page</h1>
-    <p>This is a test page to test the DevOnly component</p>
-    <DevOnly>
-        <p>This is only visible in development mode</p>
-    </DevOnly>
+    <p>If you cant see anything then you probably shouldnt be here</p>
+
+    <p>
+        Store: {$store}
+    </p>
+
+    <button on:click={async() => { browser ? store.update((n) => n + 1) : null }}>
+        +
+    </button>
 </main>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: *
+Disallow: /Dashboard/
+Crawl-delay: 5

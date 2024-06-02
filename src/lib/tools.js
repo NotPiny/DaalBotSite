@@ -24,6 +24,14 @@ const notices_seen = (noticeName) => {
     localStorage.setItem('notices', JSON.stringify(noticesJson));
 }
 
+/**
+ * @param {string} identifier
+ * @param {string} value
+*/
+const transmission_set = (identifier, value) => {
+
+}
+
 const dismissables = {
     seen: notices_hasseen,
     set: notices_seen,

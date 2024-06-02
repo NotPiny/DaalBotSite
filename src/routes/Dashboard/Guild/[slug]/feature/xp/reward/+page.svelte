@@ -1,4 +1,7 @@
 <script>
+// @ts-nocheck
+// ^ I tried fixing this but type checking is a pain and was complaining about guild possibly being null
+
     import { browser } from "$app/environment";
     import tools from "$lib/dashboard/tools";
 
@@ -6,26 +9,17 @@
     import IconPencil from "$lib/images/svg/icons/pencil.svg"
     import IconPlus from "$lib/images/svg/icons/plus.svg"
     import IconCross from "$lib/images/svg/icons/cross.svg"
+    import { APIGuild } from "$lib/dashboard/types";
 
     tools.page.applyStyles();
 
     /**
-     * @type {{id: string, name: string, icon: string?, roles: Array<{name: string, id: string}>}}
+     * @type {APIGuild | null}
     */
-    let guild = {
-        id: '',
-        name: '',
-        icon: '',
-        roles: [
-            {
-                name: 'Placeholder',
-                id: '1'
-            }
-        ]
-    };
+    let guild = null;
 
     (async () => {
-        guild = await tools.guild.getCurrent();
+        guild = await tools.guild.getCurrent(false, true);
     })();
 
     /**

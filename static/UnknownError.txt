@@ -1,0 +1,2 @@
+Hey if you're reading this chances are something has broken on the page. Maybe its a data source failing to load so you get this instead of the content you were expecting.
+You can help out by reporting the issue in the support server (https://lnk.daalbot.xyz/HQ) and we'll try to figure out what the hell is going wrong and fix it.
