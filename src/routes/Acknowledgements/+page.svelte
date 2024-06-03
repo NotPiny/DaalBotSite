@@ -12,7 +12,7 @@
 Well hello traveler! Welcome to the Acknowledgements page where I give credit to all the amazing people and projects who made this site possible
 <ul>
     <li>
-        <a href="https://svelte.dev/">Svelte (Kit)</a> - The best framework ive used i mean ive only used 1 but its pretty damn good
+        <a href="https://svelte.dev/">Svelte (Kit)</a> - The best framework ive used i mean ive only used one but its pretty damn good
     </li>
     <li>
         <a href="https://shoelace.style">Shoelace</a> - Used mostly on the dashboard for the buttons, drawers and whatever else
@@ -22,6 +22,9 @@ Well hello traveler! Welcome to the Acknowledgements page where I give credit to
     </li>
     <li>
         <a href="https://microsoft.github.io/monaco-editor/">Monaco editor</a> - Used for the code editor on the dashboard
+    </li>
+    <li>
+        <a href="https://glitchii.github.io/embedbuilder">Embed Builder</a> - Used for message builder tool on the dashboard (glitchii is awesome &lt;3)
     </li>
 </ul>
 If you believe that something is missing from this list please <a href="/Contact">contact me</a> and ill add it
