@@ -1,9 +1,12 @@
 <script>
+// @ts-nocheck
+
     import tools from '$lib/dashboard/tools';
     import { onMount } from 'svelte';
     import { APIChannel } from '$lib/dashboard/types';
     // @ts-ignore
     import { browser } from '$app/environment';
+    import { IconCaretDown, IconCaretRight } from '@tabler/icons-svelte';
 
     /**
      * @type {Array<APIChannel> | null}
@@ -43,6 +46,39 @@
         }
     });
 
+    // Always escape HTML for text arguments!
+    /**
+     * @param {string | null} html
+     */
+        function escapeHtml(html) {
+        const div = document.createElement('div');
+        div.textContent = html;
+        return div.innerHTML;
+    }
+
+    // Custom function to emit toast notifications (I dont know how tf this works but it does so I'm not touching it)
+    /**
+     * @param {any} message
+     */
+    function notify(message, variant = 'primary', icon = 'info-circle', duration = 3000) {
+        const alert = Object.assign(document.createElement('sl-alert'), {
+        variant,
+        closable: true,
+        duration: duration,
+        innerHTML: `
+            <sl-icon name="${icon}" slot="icon"></sl-icon>
+            ${escapeHtml(message)}
+        `
+        });
+
+        alert.classList.add('sl-theme-dark')
+
+        // @ts-ignore
+        document.querySelector('main').append(alert);
+        // @ts-ignore
+        return alert.toast();
+    }
+
     async function sendMessage() {
         if (!browser) return;
 
@@ -71,40 +107,21 @@
             }
         });
 
-        // Always escape HTML for text arguments!
-        /**
-         * @param {string | null} html
-         */
-        function escapeHtml(html) {
-            const div = document.createElement('div');
-            div.textContent = html;
-            return div.innerHTML;
-        }
-
-        // Custom function to emit toast notifications (I dont know how tf this works but it does so I'm not touching it)
-        /**
-         * @param {any} message
-         */
-        function notify(message, variant = 'primary', icon = 'info-circle', duration = 3000) {
-            const alert = Object.assign(document.createElement('sl-alert'), {
-            variant,
-            closable: true,
-            duration: duration,
-            innerHTML: `
-                <sl-icon name="${icon}" slot="icon"></sl-icon>
-                ${escapeHtml(message)}
-            `
-            });
-
-            alert.classList.add('sl-theme-dark')
-
-            // @ts-ignore
-            document.querySelector('main').append(alert);
-            // @ts-ignore
-            return alert.toast();
-        }
-
         notify('Message sent successfully.', 'success', 'check-circle');
+    }
+
+    async function submitWebhookForm() {
+        const form = document.getElementById('webhook-info');
+        if (!form) return alert('Form not found.');
+
+        const username = document.getElementById('username');
+        if (!username) return alert('Username input not found.');
+
+        const avatar = document.getElementById('avatar');
+        if (!avatar) return alert('Avatar input not found.');
+
+        if (!username.value) return alert('Please input a username.');
+        if (!avatar.value) return alert('Please input an avatar.');
     }
 </script>
 
@@ -129,8 +146,36 @@
 
     <iframe src="/html/embedbuilder/index.html" id="embedbuilder" title="Embed Builder"></iframe>
 
-    <button on:click={sendMessage}>Send</button>
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <sl-button-group label="Send Button Group">
+        <sl-button on:click={sendMessage}>Send</sl-button>
+        <sl-dropdown placement="bottom-end">
+            <sl-button slot="trigger" caret>
+                <sl-visually-hidden>More options</sl-visually-hidden>
+            </sl-button>
+            <sl-menu>
+                <sl-menu-item disabled>Send as webhook</sl-menu-item>
+            </sl-menu>
+        </sl-dropdown>
+    </sl-button-group>
+
+    <!-- <div class="send">
+        <button on:click={sendMessage}>Send</button> <button class="caret"><IconCaretRight /></button>
+    </div> -->
 </main>
+
+<!-- <sl-dialog label="Author Info" class="sl-theme-dark" open>
+    <form id="webhook-info">
+        <label for="username">Username</label>
+        <input placeholder="Input webhook username here" id="username"/><br/>
+        <label for="avatar">Avatar</label>
+        <input type="file" id="avatar"/>
+    </form>
+    <!-- svelte-ignore a11y-click-events-have-key-events --
+    <!-- svelte-ignore a11y-no-static-element-interactions --
+    <sl-button slot="footer" variant="primary" id="">Send</sl-button>
+</sl-dialog> -->
 
 <style>
     iframe {
@@ -141,7 +186,32 @@
         margin-top: 1rem;
     }
 
-    button {
+    label {
+        font-family: Poppins, sans-serif;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    input {
+        padding: 0.5rem 1rem;
+        background-color: #2f2f2f;
+        color: white;
+        font-family: Poppins, sans-serif;
+        font-size: 1rem;
+        border: transparent 2.5px solid;
+        border-radius: 5px;
+
+        width: 90%;
+
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    input[type="file"] {
+        margin-bottom: 0;
+    }
+
+    /* .send {
         margin-top: 1rem;
         
         padding: 0.5rem 1rem;
@@ -151,5 +221,29 @@
         font-size: 1rem;
         border: transparent 2.5px solid;
         border-radius: 5px;
+
+        cursor: pointer;
+    }
+
+    .send button:hover {
+        background-color: #3f3f3f;
+    }
+
+    .send button {
+        background-color: transparent;
+        color: white;
+        font-family: Poppins, sans-serif;
+        font-size: 1rem;
+        border: transparent 2.5px solid;
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+    }
+
+    .caret {
+        margin-left: -2rem;
+    } */
+
+    .sl-theme-dark {
+        color: white;
     }
 </style>

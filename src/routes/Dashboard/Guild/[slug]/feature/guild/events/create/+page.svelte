@@ -2,6 +2,13 @@
     import tools from '$lib/dashboard/tools';
     import { onMount } from 'svelte';
 
+    let eventTypes = [
+        {
+            name: 'Loading',
+            value: 'none'
+        }
+    ]
+
     onMount(async() => {
         document.body.style.backgroundImage = 'linear-gradient(to right bottom, #6200ff, #6c0bf9, #7514f4, #7d1cee, #8323e9, #8724e4, #8b25df, #8e26da, #9022d4, #921fcf, #941bc9, #9517c4)';
         document.body.style.height = '91.5vh';
@@ -26,70 +33,15 @@
                 window.location.href = window.location.href.replace('/create', '').replace(window.location.search, '')
             }
         }
-    });
 
-    const eventTypes = [
-        {
-            name: 'Message Create',
-            value: 'messageCreate'
-        },
-        {
-            name: 'Message Update',
-            value: 'messageUpdate'
-        },
-        {
-            name: 'Message Delete',
-            value: 'messageDelete'
-        },
-        {
-            name: 'Channel Create',
-            value: 'channelCreate'
-        },
-        {
-            name: 'Channel Update',
-            value: 'channelUpdate'
-        },
-        {
-            name: 'Channel Delete',
-            value: 'channelDelete'
-        },
-        {
-            name: 'Guild Update',
-            value: 'guildUpdate'
-        },
-        {
-            name: 'Guild Ban Add',
-            value: 'guildBanAdd'
-        },
-        {
-            name: 'Guild Ban Remove',
-            value: 'guildBanRemove'
-        },
-        {
-            name: 'Guild Member Add',
-            value: 'guildMemberAdd'
-        },
-        {
-            name: 'Guild Member Remove',
-            value: 'guildMemberRemove'
-        },
-        {
-            name: 'Guild Member Update',
-            value: 'guildMemberUpdate'
-        },
-        {
-            name: 'Guild Role Create',
-            value: 'guildRoleCreate'
-        },
-        {
-            name: 'Guild Role Update',
-            value: 'guildRoleUpdate'
-        },
-        {
-            name: 'Guild Role Remove',
-            value: 'guildRoleRemove'
-        }
-    ]
+        eventTypes = await fetch('https://api.daalbot.xyz/config/events')
+            .then(res => res.json())
+            .then(data => data.event_types)
+            .catch(err => {
+                console.error(err);
+                return [];
+            });
+    });
 </script>
 
 <svelte:head>

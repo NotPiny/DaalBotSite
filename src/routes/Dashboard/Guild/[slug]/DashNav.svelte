@@ -207,27 +207,7 @@
                 {/if}
             {/each}
         </sl-drawer>
-    {:else}
-        <!-- Mobile -->
-        <div class="nav-overlay">
-            <div class="nav-overlay-content">
-                <img src="https://media.piny.dev/DaalBotTransparent.png" alt="DaalBot Logo">
-                {#each categorys as category}
-                    {#if category != 'None'}
-                        <h3>{category}</h3>
-                    {/if}
-                    {#each links as link}
-                        {#if link.category == category}
-                            <!-- <a href={link.href.replace('[[GUILD_ID]]', guildId)} class:navSelected={pathName == link.href.replace('[[GUILD_ID]]', guildId)}>{link.text}</a> -->
-                            <sl-button href={link.href.replace('[[GUILD_ID]]', guildId)} class="sl-theme-dark">{link.text}</sl-button>
-                        {/if}
-                    {/each}
-                {/each}
-            <br/>
-        </div>
-        <div class="nav-overlay-bg"></div>
-    </div>
-{/if}
+    {/if}
 {/if}
 
 <style>
@@ -253,60 +233,7 @@
     .ham-button button:hover {
         cursor: pointer;
     }
-
-    .nav-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
-
-    .nav-overlay-content {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 2;
-
-        gap: 0.5rem;
-        font-family: Poppins, sans-serif;
-
-        overflow-y: scroll;
-    }
-
-    .nav-overlay-content img {
-        width: 50px;
-        height: 50px;
-
-        margin-bottom: 1rem;
-
-        margin-top: 10rem;
-    }
-
-    .nav-overlay-bg {
-        /* Radial gradient background */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-
-        background: rgb(7,0,0);
-        /* background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(71,23,182,0.5) 90%); */
-
-        opacity: 0.7;
-
-        pointer-events: none;
-    }
-
+    
     .navSelected {
         text-decoration: underline !important;
         text-decoration-color: var(--colour-primary) !important;
@@ -319,10 +246,9 @@
         font-family: Poppins, sans-serif;
     }
 
-    h3 {
-        font-size: 1.5rem;
-        margin-top: 1rem;
-
-        color: white;
+    @media (max-width: 800px) {
+        .ham-button {
+            display: none; /* Too little space to add a persistent button */
+        }
     }
 </style>

@@ -7,6 +7,7 @@
 <script>
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
+    import { IconDeviceFloppy } from '@tabler/icons-svelte';
 
     // @ts-ignore
     export let data;
@@ -20,10 +21,10 @@
         // @ts-ignore
         const moneditor = editor.editor.getModels()[0];
         const value = moneditor.getValue();
+
+        if (!browser) return console.error('This function is only available in the browser.');
         
         // Save the value
-        console.log('Saving...', value)
-
         const urlSearchParams = new URLSearchParams(window.location.search);
 
         fetch(`https://api.daalbot.xyz/dashboard/events/write?guild=${data.slug}&data=${encodeURIComponent(value)}&id=${urlSearchParams.get('id')}`, {
@@ -37,6 +38,14 @@
             } else {
                 console.log('Saved!');
             }
+
+            // Show toast
+            // @ts-ignore
+            document.getElementById('save-toast').show();
+            setTimeout(() => {
+                // @ts-ignore
+                document.getElementById('save-toast').hide();
+            }, 3000);
         }).catch(err => {
             console.error(err);
         });
@@ -84,6 +93,9 @@ if (message.channel.name === "counting") {
 
     onMount(async() => {
         document.body.style.backgroundColor = '#1e1e1e';
+        document.body.style.height = '100%';
+        // @ts-ignore
+        document.querySelector('html').style.height = '100%';
 
         const urlSearchParams = new URLSearchParams(window.location.search);
 
@@ -127,20 +139,29 @@ if (message.channel.name === "counting") {
     }
 
     #mobile-save-button button {
-        width: 75%;
         background-color: #252525;
         color: white;
 
         font-size: 1rem;
 
-        border: 5px solid #ffffff;
-        border-radius: 5px;
+        border: 2px solid #ffffff;
+        border-radius: 50%;
         padding: 1rem;
+
+        cursor: pointer; /* For the mobile users with a mouse i guess :sob: */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
     }
 
     #editor {
         width: 100%;
-        height: 100vh;
+        height: 100%;
     }
 
     #please-wait {
@@ -160,9 +181,16 @@ if (message.channel.name === "counting") {
     <sl-spinner style="font-size: 250px; --track-width: 25px; --indicator-color: var(--colour-primary);"></sl-spinner>
 </div>
 
+<sl-alert variant="success" id="save-toast" class="sl-theme-dark">
+    <sl-icon slot="icon" name="check2-circle"></sl-icon>
+    <strong>Your changes have been saved</strong>
+</sl-alert>
+
 {#if isMobile}
     <div id="mobile-save-button">
-        <button on:click={() => saveEvent()}>Save</button>
+        <button on:click={() => saveEvent()}>
+            <IconDeviceFloppy size={24} />
+        </button>
     </div>
 {/if}
 
