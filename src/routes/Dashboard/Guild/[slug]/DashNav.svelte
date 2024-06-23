@@ -146,12 +146,6 @@
             icon: twitchGlitchWhite
         },
         {
-            text: 'Twitter',
-            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/twitter',
-            category: 'Social',
-            icon: brandTwitter
-        },
-        {
             text: 'YouTube',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/youtube',
             category: 'Social'

@@ -38,7 +38,7 @@
             <h2 class="feature-title">Social Feeds</h2>
             <p class="feature-description">Get updates from your favorite social media accounts* in your server</p>
             <img class="feature-image" style="margin-bottom: 0;" src="https://media.piny.dev/daalbot/website/Socials.png" alt="DaalBot Social Feeds"/>
-            <p style="font-size: 1rem; margin-top: 0; color: gray; margin-bottom: 10rem;">*Currently only supports Twitch and Youtube</p>
+            <p style="font-size: 1rem; margin-top: 0; color: gray; margin-bottom: 10rem;">*Currently only supports Twitch</p>
         </center>
     </div>
 

@@ -14,7 +14,6 @@
         ],
         social: [
             { name: 'Twitch alerts', value: 'twitch' },
-            { name: 'Twitter alerts', value: 'twitter' },
             { name: 'Youtube alerts', value: 'youtube' },
         ],
         xp: [
