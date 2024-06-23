@@ -277,7 +277,7 @@
     </div>
 </main>
 
-<sl-dialog label="Webhook Info" class="sl-theme-dark" id="wh-dialog" open>
+<sl-dialog label="Webhook Info" class="sl-theme-dark" id="wh-dialog">
     <form id="webhook-info">
         <label for="username">
             <p>Username</p>
