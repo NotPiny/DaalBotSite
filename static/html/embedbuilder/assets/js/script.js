@@ -867,43 +867,56 @@ addEventListener('DOMContentLoaded', () => {
                     const formData = new FormData();
                     const fileInput = createElement({ 'input': { type: 'file', accept: 'image/*' } });
                     const edit = browse.closest('.edit');
-                    const expiration = 7 * 24 * 60 * 60;
 
                     fileInput.onchange = el => {
                         if (el.target.files[0].size > 32 * 1024 * 1024)
                             return uploadError('File is too large. Maximum size is 32 MB.', browse, 5000);
 
-                        formData.append("expiration", expiration); // Expire after 7 days. Discord caches files.
                         formData.append("key", options.uploadKey || "93385e22b0619db73a5525140b13491c"); // Add your own key through the uploadKey option.
                         formData.append("image", el.target.files[0]);
                         // formData.append("name", ""); // Uses original file name if no "name" is not specified.
 
                         browse.classList.add('loading');
 
-                        fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData })
-                            .then(res => res.json())
-                            .then(res => {
-                                browse.classList.remove('loading');
-                                if (!res.success) {
-                                    console.log('Upload failed:', res.data?.error || res.error?.message || res);
-                                    return uploadError(res.data?.error || res.error?.message || "Request failed. (Check dev-console)", browse);
-                                }
+                        (async () => {
+                            let body = {}
 
-                                imgSrc(edit.querySelector('.editIcon > .imgParent'), res.data.url);
-                                const linkInput = edit.querySelector('input[type=text]');
-                                const textInput = edit.querySelector('input[class$=Name], input[class$=Text]');
+                            const toBase64 = file => new Promise((resolve, reject) => {
+                                const reader = new FileReader();
+                                reader.readAsDataURL(file);
+                                reader.onload = () => resolve(reader.result);
+                                reader.onerror = reject;
+                            });
 
-                                linkInput.value = res.data.url;
-                                // focus on the next empty input if the field requires a name or text to display eg. footer or author.
-                                !textInput?.value && textInput?.focus();
+                            body.image = await toBase64(el.target.files[0]);
 
-                                console.info(`${res.data.url} will be deleted in ${expiration / 60 / 60} hours. To delete it now, visit ${res.data.delete_url} and scroll down to find the delete button.`);
+                            fetch('/api/image', { method: 'POST', body: JSON.stringify(body), headers: {
+                                'Content-Type': 'application/json'
+                            } })
+                                .then(res => res.json())
+                                .then(res => {
+                                    browse.classList.remove('loading');
+                                    if (!res.success) {
+                                        console.log('Upload failed:', res.data?.error || res.error?.message || res);
+                                        return uploadError(res.data?.error || res.error?.message || "Request failed. (Check dev-console)", browse);
+                                    }
 
-                                linkInput.dispatchEvent(new Event('input'));
-                            }).catch(err => {
-                                browse.classList.remove('loading');
-                                error(`Request failed with error: ${err}`)
-                            })
+                                    imgSrc(edit.querySelector('.editIcon > .imgParent'), res.data.url);
+                                    const linkInput = edit.querySelector('input[type=text]');
+                                    const textInput = edit.querySelector('input[class$=Name], input[class$=Text]');
+
+                                    linkInput.value = res.data.url;
+                                    // focus on the next empty input if the field requires a name or text to display eg. footer or author.
+                                    !textInput?.value && textInput?.focus();
+
+                                    console.info(`${res.data.url} will be stored for a good while. To delete it now, visit ${res.data.delete_url} and scroll down to find the delete button.`);
+
+                                    linkInput.dispatchEvent(new Event('input'));
+                                }).catch(err => {
+                                    browse.classList.remove('loading');
+                                    error(`Request failed with error: ${err}`)
+                                })
+                        })();
                     }
 
                     fileInput.click();

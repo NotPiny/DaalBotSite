@@ -169,6 +169,7 @@
     ];
 </script>
 
+{#if !isMobile}
 <div class="ham-button">
     <button on:click={() => toggleMenu()}>
         {#if menuExpanded}
@@ -178,6 +179,7 @@
         {/if}
     </button>
 </div>
+{/if}
 
 {#if menuExpanded}
     {#if !isMobile}

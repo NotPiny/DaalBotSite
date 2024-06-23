@@ -6,7 +6,7 @@
     import { APIChannel } from '$lib/dashboard/types';
     // @ts-ignore
     import { browser } from '$app/environment';
-    import { IconCaretDown, IconCaretRight } from '@tabler/icons-svelte';
+    import { IconWebhook, IconCircleX } from '@tabler/icons-svelte';
 
     /**
      * @type {Array<APIChannel> | null}
@@ -18,8 +18,20 @@
     */
     let selectedChannel = null;
 
+    let currentGuild = '';
+
+    let webhookData = {
+        username: '',
+        avatar: '',
+        avatarURL: null,
+        enabled: false
+    }
+
+    let sending = false;
+
     onMount(async() => {
         await tools.page.applyStyles();
+        currentGuild = await tools.guild.extractURL(window.location.href);
         channels = (await tools.guild.getChannels()).filter(channel => channel.type == '0');
 
         await new Promise(resolve => setTimeout(resolve, 500));
@@ -44,6 +56,9 @@
         } else {
             console.error('Select not found.');
         }
+
+
+        document.getElementById('modal-send').addEventListener('click', submitWebhookForm);
     });
 
     // Always escape HTML for text arguments!
@@ -79,27 +94,80 @@
         return alert.toast();
     }
 
-    async function sendMessage() {
-        if (!browser) return;
+    function filterData(input) {
+        if (JSON.stringify(input).match(/"embed":{"color":[0-9]*}/g)) {
+            // Embed with only colour (invalid so bin it)
+            const returnObj = {
+                content: input.content
+            }
 
-        if (!selectedChannel) return alert('Please select a channel.');
+            if (input.username) {
+                returnObj.username = input.username;
+            }
+
+            if (input.avatar) {
+                returnObj.avatar = input.avatar;
+            }
+
+            return returnObj;
+        } else {
+            return input;
+        }
+    }
+
+    async function sendMessage() {
+        if (!browser || sending) return;
+        sending = true; // Set sending to true to show spinner and disable button
+
+        if (!selectedChannel) {
+            notify('Please select a channel.', 'danger', 'exclamation-triangle');
+            return sending = false;
+        };
         /**
          * @type {HTMLIFrameElement | null}
         */
         // @ts-ignore
         const iframe = document.getElementById('embedbuilder');
-        if (!iframe) return alert(`Failed to send message (iframe not found).`);
+        if (!iframe) {
+            notify('Failed to send message (iframe not found).', 'danger', 'exclamation-triangle');
+            return sending = false;
+        };
 
         const contentWindow = iframe.contentWindow;
-        if (!contentWindow) return alert(`Failed to send message (content window not found).`);
+        if (!contentWindow) {
+            notify('Failed to send message (contentWindow not found).', 'danger', 'exclamation-triangle');
+            return sending = false;
+        
+        };
 
         // @ts-ignore
         const data = contentWindow.window.json;
 
-        if (!data) return alert(`Failed to send message (data not found).`);
+        if (!data) {
+            notify('Failed to send message (data not found).', 'danger', 'exclamation-triangle');
+            return sending = false;
+        };
 
-        const guildId = await tools.guild.extractURL(window.location.href);
-        await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${guildId}&channel=${selectedChannel.id}&data=${encodeURIComponent(JSON.stringify(data))}`, {
+        if (webhookData.enabled && !webhookData.avatarURL) {
+            fetch('/api/image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    image: webhookData.avatar
+                })
+            }).then(async res => {
+                const json = await res.json();
+                webhookData.avatarURL = json.url;
+            }).catch(err => {
+                console.error(err);
+                notify('Failed to send message (failed to upload avatar).', 'danger', 'exclamation-triangle');
+                return sending = false;
+            });
+        }
+
+        const res = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatar: webhookData.avatarURL }))}` : ''}&data=${encodeURIComponent(JSON.stringify(filterData(data)))}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -107,21 +175,54 @@
             }
         });
 
-        notify('Message sent successfully.', 'success', 'check-circle');
+        if (res.status == 424) {
+            notify('Failed to send message (Bot does not have a webhook in the channel).', 'danger', 'exclamation-triangle');   
+        } else {
+            notify('Message sent successfully.', 'success', 'check-circle');
+        }
+
+        sending = false;
     }
 
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
+
     async function submitWebhookForm() {
+        /**
+         * @type {HTMLFormElement | null}
+         */
         const form = document.getElementById('webhook-info');
         if (!form) return alert('Form not found.');
 
         const username = document.getElementById('username');
         if (!username) return alert('Username input not found.');
 
+        /**
+         * @type {HTMLInputElement | null}
+         */
         const avatar = document.getElementById('avatar');
         if (!avatar) return alert('Avatar input not found.');
 
         if (!username.value) return alert('Please input a username.');
         if (!avatar.value) return alert('Please input an avatar.');
+
+        const avatarBase64 = await toBase64(avatar.files[0]);
+        if (!avatarBase64) return alert('Failed to convert avatar to base64.');
+
+        webhookData = {
+            username: username.value,
+            avatar: avatarBase64,
+            avatarURL: null,
+            enabled: true
+        }
+ 
+        document.getElementById('wh-dialog').hide();
+
+        notify('Webhook set successfully.', 'success', 'check-circle');
     }
 </script>
 
@@ -129,53 +230,77 @@
     <title>Message Builder - Dashboard</title>
 </svelte:head>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <main class="sl-theme-dark">
     <h1>Message Builder</h1>
 
     {#if channels}
-        <sl-select placeholder="Select a channel." size="medium" id="channelSelector">
-            {#if channels}
-                {#each channels as channel}
-                    <sl-option value="{channel.id}">{channel.name}</sl-option>
-                {/each}
-            {/if}
-        </sl-select>
+        <div class="channel-settings">
+            <sl-select placeholder="Select a channel." size="medium" id="channelSelector">
+                {#if channels}
+                    {#each channels as channel}
+                        <sl-option value="{channel.id}">{channel.name}</sl-option>
+                    {/each}
+                {/if}
+            </sl-select>
+            <sl-tooltip content="Webhook settings">
+                <button on:click={() => {
+                    if (!browser) return;
+
+                    const dialog = document.querySelector('sl-dialog');
+                    if (dialog) {
+                        // @ts-ignore
+                        dialog.show();
+                    } else {
+                        console.error('Dialog not found.');
+                    }
+                }}><IconWebhook/></button>
+            </sl-tooltip>
+        </div>
     {:else}
         <p>Loading...</p>
     {/if}
 
     <iframe src="/html/embedbuilder/index.html" id="embedbuilder" title="Embed Builder"></iframe>
 
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <sl-button-group label="Send Button Group">
-        <sl-button on:click={sendMessage}>Send</sl-button>
-        <sl-dropdown placement="bottom-end">
-            <sl-button slot="trigger" caret>
-                <sl-visually-hidden>More options</sl-visually-hidden>
-            </sl-button>
-            <sl-menu>
-                <sl-menu-item disabled>Send as webhook</sl-menu-item>
-            </sl-menu>
-        </sl-dropdown>
-    </sl-button-group>
-
-    <!-- <div class="send">
-        <button on:click={sendMessage}>Send</button> <button class="caret"><IconCaretRight /></button>
-    </div> -->
+    <div class="send" on:click={sendMessage}>
+        <button>
+            {#if !sending}
+            Send
+            {:else}
+            <sl-spinner
+            style="--indicator-color: #4d4d4d;"
+            ></sl-spinner>
+            {/if}
+        </button>
+    </div>
 </main>
 
-<!-- <sl-dialog label="Author Info" class="sl-theme-dark" open>
+<sl-dialog label="Webhook Info" class="sl-theme-dark" id="wh-dialog" open>
     <form id="webhook-info">
-        <label for="username">Username</label>
-        <input placeholder="Input webhook username here" id="username"/><br/>
-        <label for="avatar">Avatar</label>
-        <input type="file" id="avatar"/>
+        <label for="username">
+            <p>Username</p>
+        </label>
+        <input placeholder="Input webhook username here" id="username" required/><br/>
+        <label for="avatar">
+            <p>Avatar</p>
+            <button style="background-color: transparent; border: none;" on:click={() => {
+                if (!browser) return;
+                
+                document.getElementById('avatar').value = '';
+                document.getElementById('avatar').files = [];
+
+                webhookData.enabled = false;
+            }}>
+                <IconCircleX size=20/>
+            </button>
+        </label>
+        <input type="file" id="avatar" accept="image/png,image/jpeg,image/webp" required/>
     </form>
-    <!-- svelte-ignore a11y-click-events-have-key-events --
-    <!-- svelte-ignore a11y-no-static-element-interactions --
-    <sl-button slot="footer" variant="primary" id="">Send</sl-button>
-</sl-dialog> -->
+    <!-- No longer a send button but fuck it its already set in the code -->
+    <button slot="footer" variant="primary" id="modal-send">Set</button> 
+</sl-dialog>
 
 <style>
     iframe {
@@ -190,6 +315,20 @@
         font-family: Poppins, sans-serif;
         font-size: 1rem;
         font-weight: bold;
+
+        display: flex;
+    }
+
+    label button {
+        flex-direction: row-reverse;
+        background-color: transparent;
+        border: none;
+
+        cursor: pointer;
+    }
+
+    label p {
+        margin: 0;
     }
 
     input {
@@ -211,9 +350,7 @@
         margin-bottom: 0;
     }
 
-    /* .send {
-        margin-top: 1rem;
-        
+    .send {
         padding: 0.5rem 1rem;
         background-color: #2f2f2f;
         color: white;
@@ -223,9 +360,11 @@
         border-radius: 5px;
 
         cursor: pointer;
+        position: relative;
+        top: 0.9rem;
     }
 
-    .send button:hover {
+    .send:hover {
         background-color: #3f3f3f;
     }
 
@@ -236,14 +375,46 @@
         font-size: 1rem;
         border: transparent 2.5px solid;
         border-radius: 5px;
-        padding: 0.5rem 1rem;
-    }
+        padding: 0.25rem 1rem;
 
-    .caret {
-        margin-left: -2rem;
-    } */
+        cursor: pointer;
+    }
 
     .sl-theme-dark {
         color: white;
+    }
+
+    .channel-settings {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 0.25rem;
+
+        margin-top: 1rem;
+    }
+
+    .channel-settings button {
+        background-color: transparent;
+        border: solid var(--sl-input-border-width) var(--sl-input-border-color);
+
+        border-radius: var(--sl-input-border-radius-medium);
+
+        padding: 0.25rem 0.25rem;
+
+        cursor: pointer;
+    }
+
+    button[variant="primary"] {
+        background-color: var(--sl-color-gray-300);
+        color: white;
+        font-family: Poppins, sans-serif;
+        font-size: 1rem;
+        font-weight: bold;
+        border: transparent 2.5px solid;
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+
+        cursor: pointer;
     }
 </style>

@@ -13,7 +13,7 @@ options = {
     verified: false,
     noUser: false,
     data: 'JTdCJTIyZW1iZWQlMjIlM0ElN0IlMjJ0aXRsZSUyMiUzQSUyMkxvcmVtJTIwaXBzdW0lMjIlMkMlMjJkZXNjcmlwdGlvbiUyMiUzQSUyMkRvbG9yJTIwc2l0JTIwYW1ldC4uLiUyMiUyQyUyMmNvbG9yJTIyJTNBMzkxMjklN0QlN0Q=',
-    guiTabs: ['author', 'description'],
+    guiTabs: ['content', 'description'],
     useJsonEditor: false,
     reverseColumns: false,
     allowPlaceholders: false,
