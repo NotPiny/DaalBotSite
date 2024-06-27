@@ -10,7 +10,7 @@
 <Navbar />
 <Header title="DaalBot" buttons={[
     { text: "Dashboard", href: "/Dashboard" },
-    { text: "Invite", href: "https://lnk.daalbot.xyz/Invite" }
+    { text: "Invite", href: "https://go.daalbot.xyz/Invite" }
 ]} />
 
 <div class="page">
@@ -46,7 +46,7 @@
         <center>
             <h1>Invite DaalBot</h1>
             <p style="font-size: 1.5rem; margin-bottom: 3rem;">Invite DaalBot to your server and start using it's features today!</p>
-            <a href="https://lnk.daalbot.xyz/Invite" style="font-size: 1.5rem">Invite DaalBot</a>
+            <a href="https://go.daalbot.xyz/Invite" style="font-size: 1.5rem">Invite DaalBot</a>
         </center>
     </div>
 

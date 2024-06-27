@@ -23,6 +23,7 @@
 	"dependencies": {
 		"@tabler/icons-svelte": "^3.5.0",
 		"axios": "^1.7.2",
-		"monaco-editor": "^0.46.0"
+		"monaco-editor": "^0.46.0",
+		"svelte-markdown": "^0.4.1"
 	}
 }

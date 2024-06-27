@@ -65,7 +65,7 @@
             } catch {}
             // @ts-ignore
             monaco.editor.create(document.getElementById('editor'), {
-                value: value ?? `// To learn more please visit https://lnk.daalbot.xyz/EventsGuide
+                value: value ?? `// To learn more please visit https://go.daalbot.xyz/EventsGuide
 
 // Example
 if (message.channel.name === "counting") {

@@ -26,6 +26,9 @@ Well hello traveler! Welcome to the Acknowledgements page where I give credit to
     <li>
         <a href="https://glitchii.github.io/embedbuilder">Embed Builder</a> - Used for message builder tool on the dashboard (glitchii is awesome &lt;3)
     </li>
+    <li>
+        <a href="https://www.npmjs.com/package/svelte-markdown">svelte-markdown</a> - Used for rendering markdown on the site
+    </li>
 </ul>
 If you believe that something is missing from this list please <a href="/Contact">contact me</a> and ill add it
 

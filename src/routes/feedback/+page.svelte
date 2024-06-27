@@ -11,7 +11,7 @@
 
     async function discordLogin() {
         if (browser) {
-            window.location.href = "https://lnk.daalbot.xyz/DiscordOAuth";
+            window.location.href = "https://go.daalbot.xyz/DiscordOAuth";
         }
     }
 

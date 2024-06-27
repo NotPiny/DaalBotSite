@@ -143,6 +143,7 @@
 
     .middle {
         margin: auto;
+        text-align: center;
     }
 
     /* .right {

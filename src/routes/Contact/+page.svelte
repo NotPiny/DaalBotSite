@@ -26,7 +26,7 @@
 <div class="page">
     <center>
         <h1 style="text-align: center; color: white;">Contact</h1>
-        <p style="text-align: center; color: white;">If you have any questions or concerns, feel free to reach out to us at <a href="mailto:contact@daalbot.xyz" class="link">contact@daalbot.xyz</a> or join the <a href="https://lnk.daalbot.xyz/HQ" class="link">support server</a>
+        <p style="text-align: center; color: white;">If you have any questions or concerns, feel free to reach out to us at <a href="mailto:contact@daalbot.xyz" class="link">contact@daalbot.xyz</a> or join the <a href="https://go.daalbot.xyz/HQ" class="link">support server</a>
     </center>
 
     <Footer />

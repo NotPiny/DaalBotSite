@@ -1,6 +1,6 @@
 <div class="footer">
     <p class="footer-made-by-text">Made with ❤️ by <a href="https://piny.dev">Piny</a></p>
-    <p><a href="https://github.com/DaalBot/Discord">Github</a> / <a href="https://lnk.daalbot.xyz/Privacy">Privacy Policy</a> / <a href="/Contact">Contact</a></p>
+    <p><a href="https://github.com/DaalBot/Discord">Github</a> / <a href="/Legal">Legal</a> / <a href="/Contact">Contact</a></p>
     <a href="/Acknowledgements">Acknowledgements</a>
 </div>
 
@@ -18,6 +18,10 @@
 
         position: relative;
         bottom: 0;
+
+        font-family: Poppins, sans-serif;
+
+        color: white;
     }
 
     .footer a {

@@ -40,8 +40,8 @@
 
     const links = [
         { href: "/", text: "Home" },
-        { href: "https://lnk.daalbot.xyz/Invite", text: "Invite" },
-        { href: "https://lnk.daalbot.xyz/HQ", text: "Support" },
+        { href: "https://go.daalbot.xyz/Invite", text: "Invite" },
+        { href: "https://go.daalbot.xyz/HQ", text: "Support" },
         { href: "/Dashboard", text: "Dashboard" }
     ];
 </script>
