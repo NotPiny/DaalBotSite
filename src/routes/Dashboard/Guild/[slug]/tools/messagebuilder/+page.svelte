@@ -159,26 +159,28 @@
                 })
             }).then(async res => {
                 const json = await res.json();
-                webhookData.avatarURL = json.url;
+                webhookData.avatarURL = json.data.url;
+
+                console.log('Webhook data:', webhookData);
+
+                const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}&data=${encodeURIComponent(JSON.stringify(filterData(data)))}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `${localStorage.getItem('accesscode')}`
+                    }
+                });
+
+                if (mRes.status == 424) {
+                    notify('Failed to send message (Bot does not have a webhook in the channel).', 'danger', 'exclamation-triangle');   
+                } else {
+                    notify('Message sent successfully.', 'success', 'check-circle');
+                }
             }).catch(err => {
                 console.error(err);
                 notify('Failed to send message (failed to upload avatar).', 'danger', 'exclamation-triangle');
                 return sending = false;
             });
-        }
-
-        const res = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatar: webhookData.avatarURL }))}` : ''}&data=${encodeURIComponent(JSON.stringify(filterData(data)))}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `${localStorage.getItem('accesscode')}`
-            }
-        });
-
-        if (res.status == 424) {
-            notify('Failed to send message (Bot does not have a webhook in the channel).', 'danger', 'exclamation-triangle');   
-        } else {
-            notify('Message sent successfully.', 'success', 'check-circle');
         }
 
         sending = false;
