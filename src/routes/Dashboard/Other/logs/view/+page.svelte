@@ -15,6 +15,10 @@
         const params = new URLSearchParams(window.location.search);
         pasteID = params.get('src') ?? `/UnknownError.txt`;
 
+        if (params.has('raw')) {
+            window.location.href = `https://termbin.com/${pasteID}`; // Redirect to the raw paste for when i need to use the function for other stuff
+        }
+
         const response = await fetch(`/api/paste/${pasteID}`);
         text = (await response.text()).replace(`--- OLD ---\n`, '').replace(`--- NEW ---\n`, '\n:::');
 
