@@ -25,6 +25,7 @@ options = {
     single: true,
     noMultiEmbedsOption: true,
     sourceOption: false, // Display link to source code in menu.
+    uploadKey: '156507fba973791ad2c2d9e55d8efe70'
 }
 
 // Default JSON object

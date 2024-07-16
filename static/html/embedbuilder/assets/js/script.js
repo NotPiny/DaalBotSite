@@ -439,6 +439,10 @@ addEventListener('DOMContentLoaded', () => {
             .replace(/__(.+?)__/g, '<u>$1</u>')
             .replace(/\*(.+?)\*/g, '<em>$1</em>')
             .replace(/_(.+?)_/g, '<em>$1</em>')
+            //headings
+            .replace(/^# (.*)$/gm, '<h1 class="heading1">$1</h1>')
+            .replace(/^## (.*)$/gm, '<h2 class="heading2">$1</h2>')
+            .replace(/^### (.*)$/gm, '<h3 class="heading3">$1</h3>')
             // Replace >>> and > with block-quotes. &#62; is HTML code for >
             .replace(/^(?: *&#62;&#62;&#62; ([\s\S]*))|(?:^ *&#62;(?!&#62;&#62;) +.+\n)+(?:^ *&#62;(?!&#62;&#62;) .+\n?)+|^(?: *&#62;(?!&#62;&#62;) ([^\n]*))(\n?)/mg, (all, match1, match2, newLine) => {
                 return `<div class="blockquote"><div class="blockquoteDivider"></div><blockquote>${match1 || match2 || newLine ? match1 || match2 : all.replace(/^ *&#62; /gm, '')}</blockquote></div>`;
@@ -867,6 +871,7 @@ addEventListener('DOMContentLoaded', () => {
                     const formData = new FormData();
                     const fileInput = createElement({ 'input': { type: 'file', accept: 'image/*' } });
                     const edit = browse.closest('.edit');
+                    const expiration = 7 * 24 * 60 * 60;
 
                     fileInput.onchange = el => {
                         if (el.target.files[0].size > 32 * 1024 * 1024)
@@ -878,45 +883,30 @@ addEventListener('DOMContentLoaded', () => {
 
                         browse.classList.add('loading');
 
-                        (async () => {
-                            let body = {}
+                        fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData })
+                            .then(res => res.json())
+                            .then(res => {
+                                browse.classList.remove('loading');
+                                if (!res.success) {
+                                    console.log('Upload failed:', res.data?.error || res.error?.message || res);
+                                    return uploadError(res.data?.error || res.error?.message || "Request failed. (Check dev-console)", browse);
+                                }
 
-                            const toBase64 = file => new Promise((resolve, reject) => {
-                                const reader = new FileReader();
-                                reader.readAsDataURL(file);
-                                reader.onload = () => resolve(reader.result);
-                                reader.onerror = reject;
-                            });
+                                imgSrc(edit.querySelector('.editIcon > .imgParent'), res.data.url);
+                                const linkInput = edit.querySelector('input[type=text]');
+                                const textInput = edit.querySelector('input[class$=Name], input[class$=Text]');
 
-                            body.image = await toBase64(el.target.files[0]);
+                                linkInput.value = res.data.url;
+                                // focus on the next empty input if the field requires a name or text to display eg. footer or author.
+                                !textInput?.value && textInput?.focus();
 
-                            fetch('/api/image', { method: 'POST', body: JSON.stringify(body), headers: {
-                                'Content-Type': 'application/json'
-                            } })
-                                .then(res => res.json())
-                                .then(res => {
-                                    browse.classList.remove('loading');
-                                    if (!res.success) {
-                                        console.log('Upload failed:', res.data?.error || res.error?.message || res);
-                                        return uploadError(res.data?.error || res.error?.message || "Request failed. (Check dev-console)", browse);
-                                    }
+                                console.info(`${res.data.url} has been uploaded. To delete it, visit ${res.data.delete_url} and scroll down to find the delete button.`);
 
-                                    imgSrc(edit.querySelector('.editIcon > .imgParent'), res.data.url);
-                                    const linkInput = edit.querySelector('input[type=text]');
-                                    const textInput = edit.querySelector('input[class$=Name], input[class$=Text]');
-
-                                    linkInput.value = res.data.url;
-                                    // focus on the next empty input if the field requires a name or text to display eg. footer or author.
-                                    !textInput?.value && textInput?.focus();
-
-                                    console.info(`${res.data.url} will be stored for a good while. To delete it now, visit ${res.data.delete_url} and scroll down to find the delete button.`);
-
-                                    linkInput.dispatchEvent(new Event('input'));
-                                }).catch(err => {
-                                    browse.classList.remove('loading');
-                                    error(`Request failed with error: ${err}`)
-                                })
-                        })();
+                                linkInput.dispatchEvent(new Event('input'));
+                            }).catch(err => {
+                                browse.classList.remove('loading');
+                                error(`Request failed with error: ${err}`)
+                            })
                     }
 
                     fileInput.click();

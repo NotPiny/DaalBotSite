@@ -149,38 +149,33 @@
         };
 
         if (webhookData.enabled && !webhookData.avatarURL) {
-            fetch('/api/image', {
+            const formData = new FormData();
+            formData.append('image', webhookData.avatar.split(';base64,')[1]); // Append the avatar to the form data
+
+            const res = await fetch('https://api.imgbb.com/1/upload?key=156507fba973791ad2c2d9e55d8efe70', {
+                method: 'POST',
+                body: formData
+            })
+            const json = await res.json();
+            webhookData.avatarURL = json.data.url;
+
+            console.log('Webhook data:', webhookData);
+
+            const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}&data=${encodeURIComponent(JSON.stringify(filterData(data)))}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    image: webhookData.avatar
-                })
-            }).then(async res => {
-                const json = await res.json();
-                webhookData.avatarURL = json.data.url;
-
-                console.log('Webhook data:', webhookData);
-
-                const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}&data=${encodeURIComponent(JSON.stringify(filterData(data)))}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `${localStorage.getItem('accesscode')}`
-                    }
-                });
-
-                if (mRes.status == 424) {
-                    notify('Failed to send message (Bot does not have a webhook in the channel).', 'danger', 'exclamation-triangle');   
-                } else {
-                    notify('Message sent successfully.', 'success', 'check-circle');
+                    'Content-Type': 'application/json',
+                    'Authorization': `${localStorage.getItem('accesscode')}`
                 }
-            }).catch(err => {
-                console.error(err);
-                notify('Failed to send message (failed to upload avatar).', 'danger', 'exclamation-triangle');
-                return sending = false;
             });
+
+            if (mRes.status == 424) {
+                notify('Failed to send message (Bot does not have a webhook in the channel).', 'danger', 'exclamation-triangle');   
+            } else if (mRes.status == 200) {
+                notify('Message sent successfully.', 'success', 'check-circle');
+            } else {
+                notify('Failed to send message (API Req Failed)', 'danger', 'exclamation-triangle');
+            }
         }
 
         sending = false;
