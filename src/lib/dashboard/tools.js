@@ -23,13 +23,14 @@ async function timeout(ms) {
 
 /**
  * @param {string} addr
+ * @param {string?} guild
  * @returns {Promise<string>}
 */
-async function api_func_call_get(addr) {
+async function api_func_call_get(addr, guild = null) {
     if (!browser) return '';
     
     try {
-        const res = await fetch(`${addr}${addr.includes('?') ? '&' : '?'}guild=${await extractGuildIDFromURL(window.location.href)}`, {
+        const res = await fetch(`${addr}${addr.includes('?') ? '&' : '?'}guild=${guild ?? await extractGuildIDFromURL(window.location.href)}`, {
             headers: {
                 'Authorization': `${localStorage.getItem("accesscode")}`
             }
@@ -124,36 +125,38 @@ async function api_func_call_get_guild_current_channels() {
 async function page_apply_styles() {
     if (!browser) return;
 
-    document.body.style.backgroundImage = 'linear-gradient(to right bottom, #6200ff, #6c0bf9, #7514f4, #7d1cee, #8323e9, #8724e4, #8b25df, #8e26da, #9022d4, #921fcf, #941bc9, #9517c4)';
-    document.body.style.height = '91.5vh';
-    document.body.style.fontFamily = 'Poppins, sans-serif';
+    console.warn('This function has been deprecated as it is no longer needed. The styles are now applied in the $lib/dashboard/global.css file.')
 
-    if (document.getElementsByTagName('style').item(0)) {
-        // @ts-ignore
-        document.getElementsByTagName('style').item(0).innerHTML += `main {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-    
-            width: 75%;
-            height: 80%;
-    
-            margin-top: 5rem;
-    
-            margin-left: auto;
-            margin-right: auto;
-    
-            background-color: #1a1b1f;
-    
-            border-radius: 10px;
-    
-            padding: 2rem;
+    // document.body.style.backgroundImage = 'linear-gradient(to right bottom, #6200ff, #6c0bf9, #7514f4, #7d1cee, #8323e9, #8724e4, #8b25df, #8e26da, #9022d4, #921fcf, #941bc9, #9517c4)';
+    // document.body.style.height = '91.5vh';
+    // document.body.style.fontFamily = 'Poppins, sans-serif';
 
-            color: white;
-        }
-        `
-    }
+    // if (document.getElementsByTagName('style').item(0)) {
+    //     // @ts-ignore
+    //     document.getElementsByTagName('style').item(0).innerHTML += `main {
+    //         display: flex;
+    //         flex-direction: column;
+    //         justify-content: center;
+    //         align-items: center;
+    
+    //         width: 75%;
+    //         height: 80%;
+    
+    //         margin-top: 5rem;
+    
+    //         margin-left: auto;
+    //         margin-right: auto;
+    
+    //         background-color: #1a1b1f;
+    
+    //         border-radius: 10px;
+    
+    //         padding: 2rem;
+
+    //         color: white;
+    //     }
+    //     `
+    // }
 }
 
 const api = {

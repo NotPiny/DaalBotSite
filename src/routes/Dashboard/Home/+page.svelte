@@ -61,6 +61,11 @@
                 <h2>{guild.name}</h2>
             </a>
         {/each}
+        {#if userDataV.id === '900126154881646634'}
+            <a href="/Dashboard/Global" class="guild" style="background-image: url('https://media.piny.dev/DaalBotSquare.png')">
+                <h2>Global</h2>
+            </a>
+        {/if}
     </div>
     {#if uninvitedGuilds.length > 0}
         <h1>Uninvited</h1>

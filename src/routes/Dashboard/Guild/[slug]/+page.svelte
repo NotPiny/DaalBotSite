@@ -5,9 +5,6 @@
     import { onMount } from 'svelte';
     import Switch from "../../../../components/Switch.svelte";
     import placeholderImg from '$lib/images/placeholder.png';
-    
-    // This is all like super old and im lowkey scared to touch it
-    tools.page.applyStyles();
 
     let selectedCategory = '';
     let selectedFeature = '';
@@ -60,24 +57,24 @@
         <h2>Categories: </h2>
         <Switch options={[
             { name: 'Server', value: 'guild' },
-            { name: 'Socials', value: 'social' },
+            // { name: 'Socials', value: 'social' },
             { name: 'XP', value: 'xp' },
             { name: 'Tools', value: 'tools' }
         ]} bind:selected={selectedCategory} /><br/><br/>
 
         {#if selectedCategory === 'guild'}
             <Switch options={[
-                { name: 'Auto Role', value: 'guild/autorole' },
-                { name: 'Config', value: 'guild/config' },
-                { name: 'Logs', value: 'guild/logs' },
-                { name: 'Tickets', value: 'guild/ticket' },
-                { name: 'Welcoming', value: 'guild/welcome' },
+                // { name: 'Auto Role', value: 'guild/autorole' },
+                // { name: 'Config', value: 'guild/config' },
+                // { name: 'Logs', value: 'guild/logs' },
+                // { name: 'Tickets', value: 'guild/ticket' },
+                // { name: 'Welcoming', value: 'guild/welcome' },
                 { name: 'Events', value: 'guild/events' }
             ]} bind:selected={selectedFeature}/>
         {:else if selectedCategory === 'social'}
             <Switch options={[
-                { name: 'Twitch', value: 'social/twitch' },
-                { name: 'YouTube', value: 'social/youtube' }
+                // { name: 'Twitch', value: 'social/twitch' },
+                // { name: 'YouTube', value: 'social/youtube' }
             ]} bind:selected={selectedFeature}/>
         {:else if selectedCategory === 'xp'}
             <Switch options={[

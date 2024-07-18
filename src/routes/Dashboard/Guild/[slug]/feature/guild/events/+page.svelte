@@ -1,13 +1,7 @@
 <script>
     import tools from '$lib/dashboard/tools';
-    import { onMount } from 'svelte';
     import Popup from '../../../../../../../components/Popup.svelte';
     import { browser } from '$app/environment';
-
-    onMount(() => {
-        document.body.style.backgroundImage = 'linear-gradient(to right bottom, #6200ff, #6c0bf9, #7514f4, #7d1cee, #8323e9, #8724e4, #8b25df, #8e26da, #9022d4, #921fcf, #941bc9, #9517c4)';
-        document.body.style.height = '91.5vh';
-    });
 
     /**
      * @typedef {{
@@ -128,8 +122,7 @@
     <div class="event-list">
         {#each events as event}
             <!-- svelte-ignore a11y-no-static-element-interactions -->
-            <div class="event" id="event-{event.id}" on:mousedown={() => showInfo(event)}>
-                <span class="enabled-indicator enabled-indicator-{event.enabled}" />
+            <div class="event enabled-indicator-{event.enabled}" id="event-{event.id}" on:mousedown={() => showInfo(event)}>
                 <h3 style="margin-right: 1em">{event.name}</h3>
                 <p class="on-text">on {event.on}</p>
             </div>
@@ -150,29 +143,16 @@
     }
 
     main {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        width: 75%;
-        height: 80%;
-
-        margin-top: 5rem;
-
-        margin-left: auto;
-        margin-right: auto;
-
-        background-color: #1a1b1f;
-
-        border-radius: 10px;
-
-        padding: 2rem;
+        height: 100%;
     }
 
     .event-list {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        align-content: center;
         gap: 1rem;
     }
 
@@ -198,21 +178,8 @@
         margin-left: auto;
     }
 
-    .enabled-indicator {
-        width: 1rem;
-        height: 1rem;
-        border-radius: 50%;
-
-        position: relative;
-        top: 37%;
-    }
-
-    .enabled-indicator-true {
-        background-color: lime;
-    }
-
     .enabled-indicator-false {
-        background-color: red;
+        background-color: #3b2929;
     }
 
     .popup-button {

@@ -32,7 +32,19 @@
     onMount(async() => {
         await tools.page.applyStyles();
         currentGuild = await tools.guild.extractURL(window.location.href);
-        channels = (await tools.guild.getChannels()).filter(channel => channel.type == '0');
+        const allowedTypes = ['0'/**Text*/, '5',/**Announcement*/]
+        channels = (await tools.guild.getChannels()).filter(channel => {
+            let matches = false;
+
+            for (let i = 0; i < allowedTypes.length; i++) {
+                if (channel.type == allowedTypes[i]) {
+                    matches = true;
+                    break;
+                }
+            }
+
+            return matches;
+        }).sort((a, b) => a.position - b.position);
 
         await new Promise(resolve => setTimeout(resolve, 500));
 

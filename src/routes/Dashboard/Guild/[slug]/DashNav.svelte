@@ -91,7 +91,7 @@
     const categorys = [
         'None', // Always put None first
         'Server',
-        'Social',
+        // 'Social',
         'XP',
         'Tools'
     ]
@@ -103,53 +103,53 @@
             category: 'None',
             icon: homeIcon
         },
-        {
-            text: 'Auto Roles',
-            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/autorole',
-            category: 'Server',
-            icon: usersIcon
-        },
-        {
-            text: 'Config',
-            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/config',
-            category: 'Server',
-            icon: gearIcon
-        },
+        // {
+        //     text: 'Auto Roles',
+        //     href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/autorole',
+        //     category: 'Server',
+        //     icon: usersIcon
+        // },
+        // {
+        //     text: 'Config',
+        //     href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/config',
+        //     category: 'Server',
+        //     icon: gearIcon
+        // },
         {
             text: 'Events',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/events',
             category: 'Server',
             icon: routeSquareIcon
         },
-        {
-            text: 'Logs',
-            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/logs',
-            category: 'Server',
-            icon: listDetailsIcon
-        },
-        {
-            text: 'Tickets',
-            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/ticket',
-            category: 'Server',
-            icon: ticketIcon
-        },
-        {
-            text: 'Welcoming',
-            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/welcome',
-            category: 'Server',
-            icon: userPlusIcon
-        },
-        {
-            text: 'Twitch',
-            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/twitch',
-            category: 'Social',
-            icon: twitchGlitchWhite
-        },
-        {
-            text: 'YouTube',
-            href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/youtube',
-            category: 'Social'
-        },
+        // {
+        //     text: 'Logs',
+        //     href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/logs',
+        //     category: 'Server',
+        //     icon: listDetailsIcon
+        // },
+        // {
+        //     text: 'Tickets',
+        //     href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/ticket',
+        //     category: 'Server',
+        //     icon: ticketIcon
+        // },
+        // {
+        //     text: 'Welcoming',
+        //     href: '/Dashboard/Guild/[[GUILD_ID]]/feature/guild/welcome',
+        //     category: 'Server',
+        //     icon: userPlusIcon
+        // },
+        // {
+        //     text: 'Twitch',
+        //     href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/twitch',
+        //     category: 'Social',
+        //     icon: twitchGlitchWhite
+        // },
+        // {
+        //     text: 'YouTube',
+        //     href: '/Dashboard/Guild/[[GUILD_ID]]/feature/social/youtube',
+        //     category: 'Social'
+        // },
         {
             text: 'Rewards',
             href: '/Dashboard/Guild/[[GUILD_ID]]/feature/xp/reward',

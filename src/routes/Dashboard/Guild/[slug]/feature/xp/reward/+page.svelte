@@ -10,17 +10,12 @@
     import IconPlus from "$lib/images/svg/icons/plus.svg"
     import IconCross from "$lib/images/svg/icons/cross.svg"
     import { APIGuild } from "$lib/dashboard/types";
-
-    tools.page.applyStyles();
+    import { onMount } from "svelte";
 
     /**
      * @type {APIGuild | null}
     */
     let guild = null;
-
-    (async () => {
-        guild = await tools.guild.getCurrent(false, true);
-    })();
 
     /**
      * @type {{name: string, value: string, roleName: string}[]}
@@ -162,6 +157,10 @@
             deleteReward()
         }
     }
+
+    onMount((async () => {
+        guild = await tools.guild.getCurrent(false, true);
+    }))
 </script>
 <div class="popup" id="popup_edit-menu" style="display: none">
     <br/>
@@ -172,11 +171,15 @@
         <br/><br/>
         <label for="role"><h2><b>Role</b></h2></label>
         <select id="role" name="role" required value="{currentRoleEdit}">
-            {#each guild.roles as role}
-                {#if role.name != '@everyone'}
-                    <option value={role.id}>{role.name}</option>
-                {/if}
-            {/each}
+            {#if guild?.roles}
+                {#each guild?.roles as role}
+                    {#if role.name != '@everyone'}
+                        <option value={role.id}>{role.name}</option>
+                    {/if}
+                {/each}
+            {:else}
+                <option value="123456789">Loading...</option>
+            {/if}
         </select>
         <br/><br/>
         <button type="submit">Submit</button>
@@ -192,17 +195,21 @@
         <br/><br/>
         <label for="role"><h2><b>Role</b></h2></label>
         <select id="role" name="role" required>
-            {#each guild.roles as role}
-                {#if role.name != '@everyone'}
-                    <option value={role.id}>{role.name}</option>
-                {/if}
-            {/each}
+            {#if guild?.roles}
+                {#each guild.roles as role}
+                    {#if role.name != '@everyone'}
+                        <option value={role.id}>{role.name}</option>
+                    {/if}
+                {/each}
+            {:else}
+                <option value="123456789">Loading...</option>
+            {/if}
         </select>
         <br/><br/>
         <button type="submit">Submit</button>
     </form>
 </div>
-
+<!-- TODO: Redo this page using tabler -->
 <main>
     <h1>XP Rewards</h1>
     <button class="action-reward-extended" on:click={() => popup_menu_add_xp_reward()}><img src={IconPlus} alt="Add item"/> <span style="margin: auto; margin-bottom: 0.25rem; color: black; text-align:center;">Add reward</span></button>
