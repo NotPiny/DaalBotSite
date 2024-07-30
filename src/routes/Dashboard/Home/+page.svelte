@@ -93,7 +93,7 @@
         {/each}
 
         {#each uninvitedGuilds as guild}
-            <a href="https://go.daalbot.xyz/Invite?guild_id={guild.id}" class="guild uninvited">
+            <a href="https://lnk.daalbot.xyz/Invite?guild_id={guild.id}" class="guild uninvited">
                 <div class="guild-info">
                     <img src="{guild.iconURL?.includes('null') ? 'https://cdn.discordapp.com/embed/avatars/0.png' : guild?.iconURL}" alt="Icon of {guild.name}" />
                     <h2>{guild.name.length > 13 ? `${guild.name.replace(guild.name.slice(13, guild.name.length), '')}...` : guild.name}</h2>
