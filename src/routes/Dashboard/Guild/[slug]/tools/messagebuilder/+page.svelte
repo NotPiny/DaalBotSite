@@ -30,7 +30,6 @@
     let sending = false;
 
     onMount(async() => {
-        await tools.page.applyStyles();
         currentGuild = await tools.guild.extractURL(window.location.href);
         const allowedTypes = ['0'/**Text*/, '5',/**Announcement*/]
         channels = (await tools.guild.getChannels()).filter(channel => {

@@ -3,6 +3,7 @@
     import dashTools from '$lib/dashboard/tools';
     import usersSVG from '$lib/images/svg/icons/users.svg';
     import crownSVG from '$lib/images/svg/icons/crown.svg';
+    import '$lib/dashboard/global.css';
 
     /**
      * @type {Array<{name: string, id: string, icon: string, owner: string, ownerName: string, memberCount: number}>}
@@ -10,8 +11,6 @@
     let guilds = [];
 
     onMount(async() => {
-        dashTools.page.applyStyles();
-
         guilds = JSON.parse(await fetch('https://api.daalbot.xyz/get/guilds/all', {
             headers: {
                 'Authorization': `${localStorage.getItem('accesscode')}`

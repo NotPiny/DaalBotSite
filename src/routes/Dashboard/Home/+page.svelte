@@ -3,6 +3,7 @@
     import { platform } from "$lib/tools";
     import { Guild, LSUser } from "$lib/dashboard/types";
     import tools from "$lib/dashboard/tools";
+    import '$lib/dashboard/global.css';
 
     /**@type {Array<Guild>}*/
     let guilds = [];
@@ -47,10 +48,6 @@
         }
 
         document.body.style.backgroundColor = '#2f2f2f';
-    }
-
-    if (platform === 'mobile') {
-        tools.page.applyStyles();
     }
 </script>
 

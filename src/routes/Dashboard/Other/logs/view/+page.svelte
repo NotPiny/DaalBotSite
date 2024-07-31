@@ -1,6 +1,7 @@
 <script>
     import tools from '$lib/dashboard/tools';
     import { onMount } from 'svelte';
+    import '$lib/dashboard/global.css';
 
     let pasteID = '';
 
@@ -10,8 +11,6 @@
     let side2 = '';
 
     onMount(async() => {
-        await tools.page.applyStyles();
-
         const params = new URLSearchParams(window.location.search);
         pasteID = params.get('src') ?? `/UnknownError.txt`;
 

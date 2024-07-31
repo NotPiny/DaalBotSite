@@ -1,12 +1,12 @@
 <script>
     import tools from '$lib/dashboard/tools';
+    import '$lib/dashboard/global.css'
     import { onMount } from 'svelte';
     import discordIcon from '$lib/images/svg/icons/discord.svg';
 
     let error = 'unknownError';
 
     onMount(async() => {
-        await tools.page.applyStyles();
 
         const params = new URLSearchParams(window.location.search);
         const errorParam = params.get('e');

@@ -1,10 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import dashTools from '$lib/dashboard/tools';
-
-    onMount(async() => {
-        dashTools.page.applyStyles();
-    })
+    import '$lib/dashboard/global.css';
 </script>
 
 <svelte:head>
