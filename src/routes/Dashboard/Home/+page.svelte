@@ -69,7 +69,7 @@
     {/if}
     <div class="guilds">
         {#each uninvitedGuilds as guild}
-            <a href="https://go.daalbot.xyz/Invite?guild_id={guild.id}" class="guild uninvited" style="background-image: url('{guild.iconURL?.includes('null') ? 'https://cdn.discordapp.com/embed/avatars/0.png' : guild?.iconURL}')">
+            <a href="https://lnk.daalbot.xyz/Invite?guild_id={guild.id}" class="guild uninvited" style="background-image: url('{guild.iconURL?.includes('null') ? 'https://cdn.discordapp.com/embed/avatars/0.png' : guild?.iconURL}')">
                 <h2>{guild.name}</h2>
             </a>
         {/each}

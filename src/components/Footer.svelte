@@ -38,9 +38,9 @@
         margin-top: 2rem;
     }
 
-    .footer-made-by-text a {
+    /* .footer-made-by-text a {
         text-decoration: none;
-    }
+    } */
 
     @media only screen and (max-width: 800px) {
         .footer-made-by-text {

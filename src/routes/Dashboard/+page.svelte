@@ -12,12 +12,12 @@
 
         // Check if the bearer token is valid
         (async() => {
-            if (!await dismissables.seen('dashboard_beta_warning')) {
-                const confirmed = confirm('Hey! This is a bit of a warning. The dashboard is still in development, and as such, some features may not work as intended. If you\'re okay with this, click OK to continue, or click Cancel to go back.');
-                if (!confirmed) return window.location.href = '/';
+            // if (!await dismissables.seen('dashboard_beta_warning')) {
+            //     const confirmed = confirm('Hey! This is a bit of a warning. The dashboard is still in development, and as such, some features may not work as intended. If you\'re okay with this, click OK to continue, or click Cancel to go back.');
+            //     if (!confirmed) return window.location.href = '/';
 
-                dismissables.set('dashboard_beta_warning');
-            }
+            //     dismissables.set('dashboard_beta_warning');
+            // }
 
             try {
                 const request = await fetch(`https://discord.com/api/users/@me`, {

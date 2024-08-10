@@ -4,6 +4,7 @@
     if (browser) {
         const urlParams = new URLSearchParams(window.location.search);
         const accessToken = urlParams.get('accesscode');
+        const guildId = urlParams.get('guild');
 
         if (!accessToken) {
             window.location.href = '/';
@@ -82,8 +83,12 @@
             // Add access token to local storage for future use
             localStorage.setItem('accesscode', accessToken ?? '');
 
-            // Redirect to home page
-            window.location.href = '/';
+            // Redirect to dashboard
+            if (guildId !== 'none') {
+                window.location.href = `/Dashboard/Guild/${guildId}`;
+            } else {
+                window.location.href = '/Dashboard/Home';
+            }
         })
     }
 </script>

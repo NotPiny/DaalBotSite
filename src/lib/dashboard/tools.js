@@ -1,6 +1,9 @@
 import { browser } from "$app/environment";
 import { APIChannel, APIGuild } from './types';
 
+let baseURL = 'https://api.daalbot.xyz';
+// let baseURL = 'http://localhost:3000'; // For local api testing
+
 /**
  * @param {string} url
 */
@@ -84,7 +87,7 @@ async function api_func_call_post(addr, headers = []) {
 async function api_func_call_get_guild_current(includeChannels = false, includeRoles = false) {
     if (!browser) return null;
     
-    const res = await api_func_call_get('https://api.daalbot.xyz/dashboard/guilds/guild')
+    const res = await api_func_call_get(`${baseURL}/dashboard/guilds/guild`)
 
     let data = await JSON.parse(res);
     data.roles = null;
@@ -106,7 +109,7 @@ async function api_func_call_get_guild_current(includeChannels = false, includeR
 async function api_func_call_get_guild_current_roles() {
     if (!browser) return [];
     
-    const res = await api_func_call_get('https://api.daalbot.xyz/dashboard/guilds/roles')
+    const res = await api_func_call_get(`${baseURL}/dashboard/guilds/roles`)
 
     return await JSON.parse(res);
 }
@@ -117,7 +120,7 @@ async function api_func_call_get_guild_current_roles() {
 async function api_func_call_get_guild_current_channels() {
     if (!browser) return [];
     
-    const res = await api_func_call_get('https://api.daalbot.xyz/dashboard/guilds/channels')
+    const res = await api_func_call_get(`${baseURL}/dashboard/guilds/channels`)
 
     return await JSON.parse(res);
 }

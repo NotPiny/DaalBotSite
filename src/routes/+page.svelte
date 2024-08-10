@@ -2,10 +2,13 @@
     import Footer from "../components/Footer.svelte";
     import Header from "../components/Header.svelte";
     import Navbar from "../components/Navbar.svelte";
+
+    import DaalBotLogo from '$lib/images/assets/DaalBotSquare.svg';
 </script>
 
 <svelte:head>
     <title>DaalBot - The only discord bot you need</title>
+    <meta name="description" content="DaalBot is a multipurpose discord bot with features to help make your server better">
 </svelte:head>
 <Navbar />
 <Header title="DaalBot" buttons={[
@@ -16,7 +19,7 @@
 <div class="page">
     <div class="introduction">
         <center>
-            <img src="https://media.piny.dev/DaalBotSquare.png" alt="DaalBot Logo" style="border-radius: 50%; width: 150px; height: 150px; border: 3px solid black"/>
+            <img src={DaalBotLogo} alt="DaalBot Logo" style="border-radius: 50%; width: 150px; height: 150px; border: 3px solid black"/>
         </center>
         <h1 style="text-align: center; color: white;">About DaalBot</h1>
         <p style="text-align: center; color: white;">DaalBot is a <a href='https://github.com/DaalBot/Discord'>open source</a> multipurpose discord bot with features to help make your server better</p>
@@ -29,16 +32,25 @@
 
             <h2 class="feature-title">Self Roles</h2>
             <p class="feature-description">Allow members to give themselves roles in the server with customizable menus</p>
-            <img class="feature-image" src="https://media.piny.dev/daalbot/website/SelfRole.png" alt="DaalBot Self Roles"/>
+            <picture>
+                <source srcset="https://media.piny.dev/daalbot/website/SelfRole.webp" type="image/webp"/>
+                <img class="feature-image" src="https://media.piny.dev/daalbot/website/SelfRole.png" alt="DaalBot Self Roles"/>
+            </picture>
 
             <h2 class="feature-title">Welcome Messages</h2>
             <p class="feature-description">Welcome new members to your server with customizable messages</p>
-            <img class="feature-image" src="https://media.piny.dev/daalbot/website/Welcome.png" alt="DaalBot Welcome Messages"/>
+            <picture>
+                <source srcset="https://media.piny.dev/daalbot/website/Welcome.webp" type="image/webp"/>
+                <img class="feature-image" src="https://media.piny.dev/daalbot/website/Welcome.png" alt="DaalBot Welcome Messages"/>
+            </picture>
 
             <h2 class="feature-title">Social Feeds</h2>
             <p class="feature-description">Get updates from your favorite social media accounts* in your server</p>
-            <img class="feature-image" style="margin-bottom: 0;" src="https://media.piny.dev/daalbot/website/Socials.png" alt="DaalBot Social Feeds"/>
-            <p style="font-size: 1rem; margin-top: 0; color: gray; margin-bottom: 10rem;">*Currently only supports Twitch</p>
+            <picture>
+                <source srcset="https://media.piny.dev/daalbot/website/Socials.webp" type="image/webp"/>
+                <img class="feature-image" style="margin-bottom: 0;" src="https://media.piny.dev/daalbot/website/Socials.png" alt="DaalBot Social Feeds"/>
+            </picture>
+            <p style="font-size: 1rem; margin-top: 0; color: #b3b3b3; margin-bottom: 10rem;">*Currently only supports Twitch</p>
         </center>
     </div>
 

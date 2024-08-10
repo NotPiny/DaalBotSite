@@ -1,10 +1,8 @@
 <script>
 // @ts-nocheck
-
     import tools from '$lib/dashboard/tools';
     import { onMount } from 'svelte';
     import { APIChannel } from '$lib/dashboard/types';
-    // @ts-ignore
     import { browser } from '$app/environment';
     import { IconWebhook, IconCircleX } from '@tabler/icons-svelte';
 

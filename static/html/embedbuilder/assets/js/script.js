@@ -454,6 +454,7 @@ addEventListener('DOMContentLoaded', () => {
                 if (match.startsWith('@')) return `<span class="mention">${match}</span>`
                 else return `<span class="mention interactive">@${match.includes('&#38;') ? 'role' : 'user'}</span>`
             })
+            .replace(/%%{.*}%%/g, '<span class="mention">Variable</span>')
 
             // parse text in brackets and then the URL in parentheses.
             .replace(/\[([^\[\]]+)\]\((.+?)\)/g, `<a title="$1" target="_blank" class="anchor" href="$2">$1</a>`)

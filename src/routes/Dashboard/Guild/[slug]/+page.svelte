@@ -31,14 +31,14 @@
     }
 
     // Okay this code should be somewhat nicer
-    onMount(async() => {
-        const isMobile = window.navigator.userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i); // This works i guess first iteration of mobile detection used innerWidth but i moreso want to know if they have a keyboard not a small screen
+    // onMount(async() => {
+    //     const isMobile = window.navigator.userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i); // This works i guess first iteration of mobile detection used innerWidth but i moreso want to know if they have a keyboard not a small screen
         
-        if (!isMobile && !(await dismissables.seen('dashboard-search'))) {
-            alert('Hey, You can use Ctrl + K to search through features now on any dashboard page!')
-            dismissables.set('dashboard-search')
-        }
-    });
+    //     if (!isMobile && !(await dismissables.seen('dashboard-search'))) {
+    //         alert('Hey, You can use Ctrl + K to search through features now on any dashboard page!')
+    //         dismissables.set('dashboard-search')
+    //     }
+    // });
 </script>
 
 <svelte:head>

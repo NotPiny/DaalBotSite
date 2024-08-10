@@ -7,12 +7,12 @@
         if (window.location.pathname == '/Dashboard' || window.location.pathname == '/Dashboard/Error' || window.location.pathname.startsWith('/Dashboard/Other')) return; // The /Dashboard page already does this and the rest dont require authentication
 
         // Check if the bearer token is valid
-        if (!await dismissables.seen('dashboard_beta_warning')) {
-            const confirmed = confirm('Hey! This is a bit of a warning. The dashboard is still in development, and as such, some features may not work as intended. If you\'re okay with this, click OK to continue, or click Cancel to go back.');
-            if (!confirmed) return window.location.href = '/';
+        // if (!await dismissables.seen('dashboard_beta_warning')) {
+        //     const confirmed = confirm('Hey! This is a bit of a warning. The dashboard is still in development, and as such, some features may not work as intended. If you\'re okay with this, click OK to continue, or click Cancel to go back.');
+        //     if (!confirmed) return window.location.href = '/';
 
-            dismissables.set('dashboard_beta_warning');
-        }
+        //     dismissables.set('dashboard_beta_warning');
+        // }
 
         try {
             // This is where /Dashboard would redirect to /Dashboard/Home but we want to do some other stuff
