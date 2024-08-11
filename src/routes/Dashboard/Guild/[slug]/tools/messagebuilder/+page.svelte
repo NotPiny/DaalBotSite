@@ -5,11 +5,7 @@
     import { APIChannel } from '$lib/dashboard/types';
     import { browser } from '$app/environment';
     import { IconWebhook, IconCircleX } from '@tabler/icons-svelte';
-
-    /**
-     * @type {Array<APIChannel> | null}
-     */
-    let channels = null;
+    import ChannelSelector from '../../../../Components/ChannelSelector.svelte';
 
     /**
      * @type {APIChannel | null | undefined}
@@ -29,43 +25,6 @@
 
     onMount(async() => {
         currentGuild = await tools.guild.extractURL(window.location.href);
-        const allowedTypes = ['0'/**Text*/, '5',/**Announcement*/]
-        channels = (await tools.guild.getChannels()).filter(channel => {
-            let matches = false;
-
-            for (let i = 0; i < allowedTypes.length; i++) {
-                if (channel.type == allowedTypes[i]) {
-                    matches = true;
-                    break;
-                }
-            }
-
-            return matches;
-        }).sort((a, b) => a.position - b.position);
-
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        /**
-         * @type {Element | null}
-        */
-        const select = document.getElementById('channelSelector');
-
-        if (select) {
-            select.addEventListener('sl-change', (event) => {
-                /**
-                 * @type {string}
-                */
-                // @ts-ignore
-                const channelId = event.target.value;
-
-                if (channels) { selectedChannel = channels.find(channel => channel.id == channelId); } else {
-                    console.error('Channels not found.');
-                } 
-            });
-        } else {
-            console.error('Select not found.');
-        }
-
 
         document.getElementById('modal-send').addEventListener('click', submitWebhookForm);
     });
@@ -169,22 +128,22 @@
             webhookData.avatarURL = json.data.url;
 
             console.log('Webhook data:', webhookData);
+        }
 
-            const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}&data=${encodeURIComponent(JSON.stringify(filterData(data)))}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `${localStorage.getItem('accesscode')}`
-                }
-            });
-
-            if (mRes.status == 424) {
-                notify('Failed to send message (Bot does not have a webhook in the channel).', 'danger', 'exclamation-triangle');   
-            } else if (mRes.status == 200) {
-                notify('Message sent successfully.', 'success', 'check-circle');
-            } else {
-                notify('Failed to send message (API Req Failed)', 'danger', 'exclamation-triangle');
+        const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}&data=${encodeURIComponent(JSON.stringify(filterData(data)))}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('accesscode')}`
             }
+        });
+
+        if (mRes.status == 424) {
+            notify('Failed to send message (Bot does not have a webhook in the channel).', 'danger', 'exclamation-triangle');   
+        } else if (mRes.status == 200) {
+            notify('Message sent successfully.', 'success', 'check-circle');
+        } else {
+            notify('Failed to send message (API Req Failed)', 'danger', 'exclamation-triangle');
         }
 
         sending = false;
@@ -236,36 +195,49 @@
     <title>Message Builder - Dashboard</title>
 </svelte:head>
 
+<ChannelSelector bind:selectedChannel={selectedChannel} onSelect={() => {
+    if (!browser) return;
+    // @ts-ignore
+    document.querySelector('.comp_channel-selector-wrapper').style.display = 'none';
+    document.querySelector('main').style.display = 'flex';
+}}
+style="display: none;"
+/>
+
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <main class="sl-theme-dark">
     <h1>Message Builder</h1>
 
-    {#if channels}
-        <div class="channel-settings">
-            <sl-select placeholder="Select a channel." size="medium" id="channelSelector">
-                {#if channels}
-                    {#each channels as channel}
-                        <sl-option value="{channel.id}">{channel.name}</sl-option>
-                    {/each}
+    <div class="channel-settings">
+        <button class="channel-selector-trigger" on:click={() => {
+            if (!browser) return;
+            // @ts-ignore
+            document.querySelector('.comp_channel-selector-wrapper').style.display = 'block'; // Show the channel selector
+            document.querySelector('main').style.display = 'none'; // Hide the main content
+            document.scrollingElement.scrollTop = 0; // Scroll to the top of the page
+        }}>
+            <p>
+                {#if selectedChannel}
+                    {selectedChannel.name}
+                {:else}
+                    Select a channel
                 {/if}
-            </sl-select>
-            <sl-tooltip content="Webhook settings">
-                <button on:click={() => {
-                    if (!browser) return;
+            </p>
+        </button>
+        <sl-tooltip content="Webhook settings">
+            <button on:click={() => {
+                if (!browser) return;
 
-                    const dialog = document.querySelector('sl-dialog');
-                    if (dialog) {
-                        // @ts-ignore
-                        dialog.show();
-                    } else {
-                        console.error('Dialog not found.');
-                    }
-                }}><IconWebhook/></button>
-            </sl-tooltip>
-        </div>
-    {:else}
-        <p>Loading...</p>
-    {/if}
+                const dialog = document.querySelector('sl-dialog');
+                if (dialog) {
+                    // @ts-ignore
+                    dialog.show();
+                } else {
+                    console.error('Dialog not found.');
+                }
+            }}><IconWebhook/></button>
+        </sl-tooltip>
+    </div>
 
     <iframe src="/html/embedbuilder/index.html" id="embedbuilder" title="Embed Builder"></iframe>
 
@@ -422,5 +394,12 @@
         padding: 0.5rem 1rem;
 
         cursor: pointer;
+    }
+
+    .channel-selector-trigger p {
+        margin: 0.2rem;
+
+        font-family: Poppins, sans-serif;
+        font-size: 1rem;
     }
 </style>
