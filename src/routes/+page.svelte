@@ -7,8 +7,8 @@
 </script>
 
 <svelte:head>
-    <title>DaalBot - The only discord bot you need</title>
-    <meta name="description" content="DaalBot is a multipurpose discord bot with features to help make your server better">
+    <title>DaalBot - The only Discord bot you need</title>
+    <meta name="description" content="DaalBot is a multipurpose Discord bot with features to help make your server better">
 </svelte:head>
 <Navbar />
 <Header title="DaalBot" buttons={[
@@ -22,13 +22,13 @@
             <img src={DaalBotLogo} alt="DaalBot Logo" style="border-radius: 50%; width: 150px; height: 150px; border: 3px solid black"/>
         </center>
         <h1 style="text-align: center; color: white;">About DaalBot</h1>
-        <p style="text-align: center; color: white;">DaalBot is a <a href='https://github.com/DaalBot/Discord'>open source</a> multipurpose discord bot with features to help make your server better</p>
+        <p style="text-align: center; color: white;">DaalBot is an <a href='https://github.com/DaalBot/Discord'>open source</a> multipurpose Discord bot with features to help make your server better</p>
     </div>
     <div class="introduction-features-transfer"/>
     <div class="features">
         <center>
             <h1 style="font-size: 5rem; margin-bottom: 0;">Features</h1>
-            <p>A (incomplete) list of features within daalbot</p>
+            <p>An (incomplete) list of features within DaalBot</p>
 
             <h2 class="feature-title">Self Roles</h2>
             <p class="feature-description">Allow members to give themselves roles in the server with customizable menus</p>
@@ -57,7 +57,7 @@
     <div class="invite-section">
         <center>
             <h1>Invite DaalBot</h1>
-            <p style="font-size: 1.5rem; margin-bottom: 3rem;">Invite DaalBot to your server and start using it's features today!</p>
+            <p style="font-size: 1.5rem; margin-bottom: 3rem;">Invite DaalBot to your server and start using its features today!</p>
             <a href="https://go.daalbot.xyz/Invite" style="font-size: 1.5rem">Invite DaalBot</a>
         </center>
     </div>
@@ -72,7 +72,7 @@
         height: 100%;
 
         font-family: Poppins, sans-serif;
-        color: white
+        color: white;
     }
 
     .introduction {

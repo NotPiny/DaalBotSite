@@ -99,6 +99,7 @@
         {/each}
     </div>
 {/if}
+<!-- <p class="subtext">Something don't look right? <span id="cache-clear" class="action-text">Clear cache</span> or <span id="bug-report" class="action-text">Report bug</span>.</p> -->
 
 <style>
     .guilds {
