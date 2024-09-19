@@ -1,13 +1,14 @@
-<!-- <script>
+<script>
     import { browser } from '$app/environment';
     import '$lib/dashboard/global.css';
 
     let fileContents = '';
+    let disableTranscriptUpdate = false; // This is a hack to prevent the iframe update from causing the iframe to update in an infinite loop
     let transcriptPage = '<h1>Transcript Viewer</h1>';
 
     $: {
         (async() => {
-            if (fileContents && browser) {
+            if (fileContents && browser && !disableTranscriptUpdate) {
                 const transcript = JSON.parse(fileContents);
                 /**
                  * @type {HTMLIFrameElement | null}
@@ -26,6 +27,7 @@
 
                 transcriptPage = await req.text();
 
+                disableTranscriptUpdate = true; // Make sure the next line doesn't cause the iframe to reload
                 transcriptView.srcdoc = transcriptPage;
                 transcriptView.style.display = 'block';
 
@@ -91,13 +93,19 @@
         position: relative;
         z-index: 1;
     }
-</style> -->
 
-<main>
+    #transcript-view {
+        border: none;
+
+        height: 100vh !important;
+    }
+</style>
+
+<!-- <main>
     <h1>
         This is coming soon!
     </h1>
     <p>
         Not right now because of weird iframe issues. (I'm working on it)
     </p>
-</main>
+</main> -->

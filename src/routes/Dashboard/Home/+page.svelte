@@ -99,7 +99,20 @@
         {/each}
     </div>
 {/if}
-<!-- <p class="subtext">Something don't look right? <span id="cache-clear" class="action-text">Clear cache</span> or <span id="bug-report" class="action-text">Report bug</span>.</p> -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="something-wrong">
+    <p class="subtext">Something don't look right? <span id="cache-clear" class="action-text" on:click={() => {
+        if (!browser) return;
+        localStorage.removeItem('user');
+        localStorage.removeItem('accesscode');
+        localStorage.removeItem('userraw');
+        window.location.href = '/Dashboard';
+    }}>Clear cache</span> or <span id="bug-report" class="action-text" on:click={()=>{
+        if (!browser) return;
+        alert('This feature is not available yet. Please report the bug in the DaalBot HQ Discord server. (go.daalbot.xyz/HQ)');
+    }}>Report bug</span>.</p>
+</div>
 
 <style>
     .guilds {
@@ -286,5 +299,37 @@
         font-size: 2rem;
         color: white;
         text-align: center;
+    }
+
+    .something-wrong {
+        position: relative;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-bottom: 1rem;
+
+        background-color: #1f1f1f;
+        padding: 0.25rem 1.5rem;
+
+        border-radius: 10px;
+        border: 1px solid #ffffff;
+
+        width: 25%;
+    }
+
+    .subtext {
+        font-family: Poppins, sans-serif;
+        font-size: 1rem;
+        color: white;
+        text-align: center;
+
+        width: 100%;
+    }
+
+    .action-text {
+        color: #b2b2b2;
+
+        cursor: pointer;
+        text-decoration: underline;
     }
 </style>
