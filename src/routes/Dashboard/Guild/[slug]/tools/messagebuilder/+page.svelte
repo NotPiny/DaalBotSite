@@ -4,9 +4,9 @@
     import { onMount } from 'svelte';
     import { APIChannel } from '$lib/dashboard/types';
     import { browser } from '$app/environment';
-    import { IconWebhook, IconCircleX } from '@tabler/icons-svelte';
+    import { IconDots, IconCircleX } from '@tabler/icons-svelte';
     import ChannelSelector from '../../../../Components/ChannelSelector.svelte';
-
+    
     /**
      * @type {APIChannel | null | undefined}
     */
@@ -20,6 +20,8 @@
         avatarURL: null,
         enabled: false
     }
+
+    let injectedData = {};
 
     let sending = false;
 
@@ -77,6 +79,10 @@
                 returnObj.avatar = input.avatar;
             }
 
+            if (input.id) {
+                returnObj.id = input.id;
+            }
+
             return returnObj;
         } else {
             return input;
@@ -130,20 +136,23 @@
             console.log('Webhook data:', webhookData);
         }
 
-        const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}&data=${encodeURIComponent(JSON.stringify(filterData(data)))}`, {
+        const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('accesscode')}`
-            }
+            },
+            body: JSON.stringify({
+                message: filterData({ ...data, ...injectedData })
+            })
         });
 
         if (mRes.status == 424) {
             notify('Failed to send message (Bot does not have a webhook in the channel).', 'danger', 'exclamation-triangle');   
         } else if (mRes.status == 200) {
-            notify('Message sent successfully.', 'success', 'check-circle');
+            notify(`Message ${injectedData?.id ? 'updated' : 'sent'} successfully.`, 'success', 'check-circle');
         } else {
-            notify('Failed to send message (API Req Failed)', 'danger', 'exclamation-triangle');
+            notify('Failed to send message (API Req Failed / Check console)', 'danger', 'exclamation-triangle');
         }
 
         sending = false;
@@ -172,22 +181,36 @@
         const avatar = document.getElementById('avatar');
         if (!avatar) return alert('Avatar input not found.');
 
-        if (!username.value) return alert('Please input a username.');
-        if (!avatar.value) return alert('Please input an avatar.');
+        /**
+         * @type {HTMLInputElement | null}
+        */
+        const message_id = document.getElementById('message_id');
+        if (!message_id) return alert('Message ID input not found.');
 
-        const avatarBase64 = await toBase64(avatar.files[0]);
-        if (!avatarBase64) return alert('Failed to convert avatar to base64.');
+        if (username.value != '' || avatar.value != '') {
+            if (!username.value) return alert('Please input a username.');
+            if (!avatar.value) return alert('Please input an avatar.');
 
-        webhookData = {
-            username: username.value,
-            avatar: avatarBase64,
-            avatarURL: null,
-            enabled: true
+            const avatarBase64 = await toBase64(avatar.files[0]);
+            if (!avatarBase64) return alert('Failed to convert avatar to base64.');
+
+            webhookData = {
+                username: username.value,
+                avatar: avatarBase64,
+                avatarURL: null,
+                enabled: true
+            }
         }
- 
+
+        if (message_id.value != '') {
+            injectedData = {
+                id: message_id.value
+            }
+        }
+
         document.getElementById('wh-dialog').hide();
 
-        notify('Webhook set successfully.', 'success', 'check-circle');
+        notify('Settings updated successfully.', 'success', 'check-circle');
     }
 </script>
 
@@ -235,7 +258,7 @@ style="display: none;"
                 } else {
                     console.error('Dialog not found.');
                 }
-            }}><IconWebhook/></button>
+            }}><IconDots/></button>
         </sl-tooltip>
     </div>
 
@@ -255,8 +278,9 @@ style="display: none;"
     </div>
 </main>
 
-<sl-dialog label="Webhook Info" class="sl-theme-dark" id="wh-dialog">
+<sl-dialog label="More Settings" class="sl-theme-dark" id="wh-dialog">
     <form id="webhook-info">
+        <h3 style="margin-top: 0;">Webhook Info</h3>
         <label for="username">
             <p>Username</p>
         </label>
@@ -275,6 +299,13 @@ style="display: none;"
             </button>
         </label>
         <input type="file" id="avatar" accept="image/png,image/jpeg,image/webp" required/>
+    </form>
+    <form id="more-options">
+        <h3>More Options</h3>
+        <label for="message_id">
+            <p>Message ID</p>
+        </label>
+        <input placeholder="The message to be edited (optional)" id="message_id"/>
     </form>
     <!-- No longer a send button but fuck it its already set in the code -->
     <button slot="footer" variant="primary" id="modal-send">Set</button> 

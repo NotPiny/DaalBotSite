@@ -2,8 +2,28 @@
     import Footer from "../components/Footer.svelte";
     import Header from "../components/Header.svelte";
     import Navbar from "../components/Navbar.svelte";
-
     import DaalBotLogo from '$lib/images/assets/DaalBotSquare.svg';
+    import { onMount } from "svelte";
+
+    /**
+     * @type {{ message_counts: { day: number }, bot: { user_count: number, channel_count: number, guild_count: number }, resType: "fresh" | "cached" | "nodata" }}
+    */
+    let stats = {
+        message_counts: {
+            day: 0
+        },
+        bot: {
+            user_count: 0,
+            channel_count: 0,
+            guild_count: 0
+        },
+        resType: "nodata"
+    };
+
+    onMount(async() => {
+        const response = await fetch('https://api.daalbot.xyz/get/bot/stats');
+        stats = await response.json();
+    })
 </script>
 
 <svelte:head>
@@ -14,15 +34,20 @@
 <Header title="DaalBot" buttons={[
     { text: "Dashboard", href: "/Dashboard" },
     { text: "Invite", href: "https://go.daalbot.xyz/Invite" }
-]} />
+]} subtext="{stats.resType !== 'nodata' ? `Servers: ${stats.bot.guild_count} | Messages processed (24h): ${(stats.message_counts.day).toLocaleString(undefined, {notation: 'compact'})}+`
+: 'Statistics loading...'}"/>
 
 <div class="page">
     <div class="introduction">
         <center>
-            <img src={DaalBotLogo} alt="DaalBot Logo" style="border-radius: 50%; width: 150px; height: 150px; border: 3px solid black"/>
+            <div>
+                <img src={DaalBotLogo} alt="DaalBot Logo" style="border-radius: 50%; width: 250px; height: 250px; border: 2px solid #2f2f2f"/>
+                <span>
+                    <h1>About DaalBot</h1>
+                    <p>DaalBot is an <a href='https://github.com/DaalBot/Discord'>open source</a> multipurpose Discord bot with features to help make your server better</p>
+                </span>
+            </div>
         </center>
-        <h1 style="text-align: center; color: white;">About DaalBot</h1>
-        <p style="text-align: center; color: white;">DaalBot is an <a href='https://github.com/DaalBot/Discord'>open source</a> multipurpose Discord bot with features to help make your server better</p>
     </div>
     <div class="introduction-features-transfer"/>
     <div class="features">
@@ -105,6 +130,22 @@
         margin-bottom: 15px;
     }
 
+    .introduction div {
+        width: 70%;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        gap: 2rem;
+    }
+
+    .introduction span {
+        width: 60%;
+        text-align: left;
+    }
+
     .feature-title {
         font-size: 3rem;
     }
@@ -146,6 +187,27 @@
 
         .introduction-features-transfer {
             height: 100px;
+        }
+
+        .introduction div {
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .introduction img {
+            width: 120px !important;
+            height: 120px !important;
+        }
+
+        .introduction span {
+            width: 100%;
+            text-align: center;
+
+            margin-top: 1rem;
+        }
+
+        .introduction span * {
+            margin: 0;
         }
     }
 
