@@ -98,7 +98,13 @@
 
     const links = [
         {
-            text: 'Home',
+            text: 'Server List',
+            href: '/Dashboard/Home',
+            category: 'None',
+            icon: homeIcon
+        },
+        {
+            text: 'Overview',
             href: '/Dashboard/Guild/[[GUILD_ID]]/',
             category: 'None',
             icon: homeIcon
