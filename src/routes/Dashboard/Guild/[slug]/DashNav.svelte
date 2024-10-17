@@ -187,14 +187,16 @@
         <sl-drawer label="Dashboard" placement="start" class="drawer-placement-start sl-theme-dark">
             {#each categorys as category}
                 {#if category == 'None'}
-                    {#each links as link}
-                        {#if link.category == category}
-                            <sl-button href={link.href.replace('[[GUILD_ID]]', guildId)} class:navSelected={pathName == link.href.replace('[[GUILD_ID]]', guildId)} style="width: 100%; text-align: center;">
-                                <!-- <img src={link.icon} slot="prefix" alt="{link.text} icon"/> -->
-                                {link.text}
-                            </sl-button>
-                        {/if}
-                    {/each}
+                    <div class="category__none">
+                        {#each links as link}
+                            {#if link.category == category}
+                                <sl-button href={link.href.replace('[[GUILD_ID]]', guildId)} class:navSelected={pathName == link.href.replace('[[GUILD_ID]]', guildId)} style="width: 100%; text-align: center;">
+                                    <!-- <img src={link.icon} slot="prefix" alt="{link.text} icon"/> -->
+                                    {link.text}
+                                </sl-button>
+                            {/if}
+                        {/each}
+                    </div>
                 {:else}
                     <sl-details summary={category} open={currentCategory == category} style="margin-top: 1rem;">
                         {#each links as link}
@@ -244,6 +246,12 @@
     .drawer-placement-start {
         color: white !important;
         font-family: Poppins, sans-serif;
+    }
+
+    .category__none {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
     }
 
     @media (max-width: 800px) {
