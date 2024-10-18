@@ -136,15 +136,12 @@
             console.log('Webhook data:', webhookData);
         }
 
-        const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}`, {
+        const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}&data=${encodeURIComponent(JSON.stringify(filterData({ ...data, ...injectedData })))}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('accesscode')}`
-            },
-            body: JSON.stringify({
-                message: filterData({ ...data, ...injectedData })
-            })
+            }
         });
 
         if (mRes.status == 424) {
