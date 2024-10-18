@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Toggle Dev Mode</title>
+</svelte:head>
+
 <script>
     import { onMount } from 'svelte';
     import { browser } from '$app/environment';

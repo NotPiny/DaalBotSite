@@ -21,6 +21,7 @@
 </script>
 
 <svelte:head>
+    <title>DaalBot - Error</title>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/shoelace.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/themes/dark.css" />
 </svelte:head>

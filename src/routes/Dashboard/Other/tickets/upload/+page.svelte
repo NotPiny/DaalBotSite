@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Transcript Viewer - Dashboard</title>
+</svelte:head>
+
 <script>
     import { browser } from '$app/environment';
     import '$lib/dashboard/global.css';

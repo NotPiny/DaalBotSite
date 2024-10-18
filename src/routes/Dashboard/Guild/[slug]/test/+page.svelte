@@ -21,3 +21,7 @@
         console.log(await response.json());
     })
 </script>
+
+<svelte:head>
+    <title>DaalBot Dashboard Testing</title>
+</svelte:head>

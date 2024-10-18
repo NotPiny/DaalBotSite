@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Legal - DaalBot</title>
+</svelte:head>
+
 <script>
     import { onMount } from 'svelte';
     onMount(() => {

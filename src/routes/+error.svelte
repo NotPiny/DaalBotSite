@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Error - DaalBot</title>
+</svelte:head>
+
 <script>
     import { page } from '$app/stores';
 

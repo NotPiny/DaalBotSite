@@ -1,3 +1,6 @@
+<svelte:head>
+    <title>Event Builder - Dashboard</title>
+</svelte:head>
 <script>
   // @ts-nocheck
     import { writable } from 'svelte/store';

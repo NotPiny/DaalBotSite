@@ -1,3 +1,8 @@
+<svelte:head>
+    <title>DaalBot - Access Request</title>
+    <meta name="description" content="Allow a website to manage DaalBot on your behalf">
+</svelte:head>
+
 <script>
     import { onMount } from 'svelte';
     import { browser } from '$app/environment'; 

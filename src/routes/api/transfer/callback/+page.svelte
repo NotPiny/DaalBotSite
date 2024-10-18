@@ -92,3 +92,7 @@
         })
     }
 </script>
+
+<svelte:head>
+    <title>DaalBot - Authorizing</title>
+</svelte:head>

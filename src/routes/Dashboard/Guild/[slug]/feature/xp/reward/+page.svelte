@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>XP Rewards - Dashboard</title>
+</svelte:head>
+
 <script>
 // @ts-nocheck
 // ^ I tried fixing this but type checking is a pain and was complaining about guild possibly being null

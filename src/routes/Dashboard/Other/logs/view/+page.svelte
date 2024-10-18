@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Logs - Dashboard</title>
+</svelte:head>
+
 <script>
     import tools from '$lib/dashboard/tools';
     import { onMount } from 'svelte';

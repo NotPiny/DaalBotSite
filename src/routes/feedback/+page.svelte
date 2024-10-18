@@ -89,6 +89,9 @@
     }
 </style> -->
 
+<svelte:head>
+    <title>DaalBot - Coming soon</title>
+</svelte:head>
 <h1>
     Temporary placeholder
 </h1>

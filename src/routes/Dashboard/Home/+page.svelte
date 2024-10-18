@@ -51,6 +51,11 @@
     }
 </script>
 
+<svelte:head>
+    <title>DaalBot - Dashboard</title>
+    <meta name="description" content="Manage your servers with DaalBot">
+</svelte:head>
+
 {#if platform === 'desktop'}
     <div class="guilds">
         {#each guilds as guild}

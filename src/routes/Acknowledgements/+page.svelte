@@ -6,6 +6,11 @@
     });
 </script>
 
+<svelte:head>
+    <title>Acknowledgements - DaalBot</title>
+    <meta name="description" content="A list of software and tools that make daalbot possible">
+</svelte:head>
+
 <div class="content">
 
 

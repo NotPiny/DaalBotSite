@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>Dashboard - DaalBot</title>
+</svelte:head>
+
 <script>
     import { browser } from "$app/environment";
     import { dismissables } from "$lib/tools";

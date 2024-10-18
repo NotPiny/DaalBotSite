@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>DaalBot - Redirect</title>
+</svelte:head>
+
 <h1>You are about to go to another page</h1>
 <p>This functionality cannot currently be automated within DaalBot so you need to go to this page and follow the instructions below</p>
 <br/>
