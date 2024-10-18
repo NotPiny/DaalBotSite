@@ -1,7 +1,3 @@
-<svelte:head>
-    <title>Logs - Dashboard</title>
-</svelte:head>
-
 <script>
     import tools from '$lib/dashboard/tools';
     import { onMount } from 'svelte';
@@ -33,6 +29,7 @@
 </script>
 
 <svelte:head>
+    <title>Logs - Dashboard</title>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/shoelace.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/themes/dark.css" />
 </svelte:head>
