@@ -45,7 +45,7 @@
         if (returnURL?.href === 'https://daalbot.xyz/show') {
             alert(localStorage.getItem('accesscode'));
         } else {
-            window.location.href = `${returnURL?.href}&code=${allow ? localStorage.getItem('accesscode') : 'denied'}`
+            window.location.href = `${returnURL?.href}?code=${allow ? localStorage.getItem('accesscode') : 'denied'}`
         }
     }
 </script>
