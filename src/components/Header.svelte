@@ -18,7 +18,7 @@
             {/each}
         </div>
         {#if subtext}
-            <p class="page-header-subtext">{subtext}</p>
+            <p class="page-header-subtext">{@html subtext}</p>
         {/if}
     </center>
 </div>

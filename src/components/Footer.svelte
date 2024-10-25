@@ -1,4 +1,8 @@
-<div class="footer">
+<script>
+    export let colour = '#1e1e1e';
+</script>
+
+<div class="footer" style="background-color: {colour}">
     <p class="footer-made-by-text">Made with ❤️ by <a href="https://piny.dev">Piny</a></p>
     <p><a href="https://github.com/DaalBot/Discord">Github</a> / <a href="/Legal">Legal</a> / <a href="/Contact">Contact</a></p>
     <a href="/Acknowledgements">Acknowledgements</a>
@@ -6,7 +10,6 @@
 
 <style>
     .footer {
-        background-color: #1e1e1e;
         margin-top: 5rem;
         width: 100%;
         height: 6rem;
