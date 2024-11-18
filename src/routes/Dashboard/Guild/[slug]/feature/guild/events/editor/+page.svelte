@@ -28,7 +28,7 @@
         // Save the value
         const urlSearchParams = new URLSearchParams(window.location.search);
 
-        axios.post(`http://localhost:3000/dashboard/events/write?guild=${data.slug}&id=${urlSearchParams.get('id')}`, {
+        axios.post(`https://api.daalbot.xyz/dashboard/events/write?guild=${data.slug}&id=${urlSearchParams.get('id')}`, {
             data: value
         }, {
             headers: {
