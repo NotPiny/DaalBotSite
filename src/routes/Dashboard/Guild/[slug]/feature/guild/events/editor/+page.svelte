@@ -5,6 +5,7 @@
 </svelte:head>
 
 <script>
+    import axios from 'axios';
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
     import { IconDeviceFloppy } from '@tabler/icons-svelte';
@@ -27,17 +28,14 @@
         // Save the value
         const urlSearchParams = new URLSearchParams(window.location.search);
 
-        fetch(`https://api.daalbot.xyz/dashboard/events/write?guild=${data.slug}&data=${encodeURIComponent(value)}&id=${urlSearchParams.get('id')}`, {
-            method: 'POST',
+        axios.post(`http://localhost:3000/dashboard/events/write?guild=${data.slug}&id=${urlSearchParams.get('id')}`, {
+            data: value
+        }, {
             headers: {
                 'Authorization': `${localStorage.getItem('accesscode')}`
-            },
-        }).then(res => res.json()).then(data => {
-            if (data.error) {
-                console.error(data.error);
-            } else {
-                console.log('Saved!');
             }
+        }).then(res => {
+            console.log('Saved!');
 
             // Show toast
             // @ts-ignore
