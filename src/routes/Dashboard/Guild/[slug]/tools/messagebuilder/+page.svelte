@@ -5,7 +5,9 @@
     import { APIChannel } from '$lib/dashboard/types';
     import { browser } from '$app/environment';
     import { IconDots, IconCircleX } from '@tabler/icons-svelte';
+    import { page } from '$app/stores';
     import ChannelSelector from '../../../../Components/ChannelSelector.svelte';
+    import { goto } from '$app/navigation';
     
     /**
      * @type {APIChannel | null | undefined}
@@ -64,67 +66,20 @@
         return alert.toast();
     }
 
-    function filterData(input) {
-        if (JSON.stringify(input).match(/"embed":{"color":[0-9]*}/g)) {
-            // Embed with only colour (invalid so bin it)
-            const returnObj = {
-                content: input.content
-            }
-
-            if (input.username) {
-                returnObj.username = input.username;
-            }
-
-            if (input.avatar) {
-                returnObj.avatar = input.avatar;
-            }
-
-            if (input.id) {
-                returnObj.id = input.id;
-            }
-
-            return returnObj;
-        } else {
-            return input;
-        }
-    }
-
     async function sendMessage() {
         if (!browser || sending) return;
-        sending = true; // Set sending to true to show spinner and disable button
+        sending = true;
+
+        const data = atob($page.url.searchParams.get('json'));
 
         if (!selectedChannel) {
             notify('Please select a channel.', 'danger', 'exclamation-triangle');
             return sending = false;
-        };
-        /**
-         * @type {HTMLIFrameElement | null}
-        */
-        // @ts-ignore
-        const iframe = document.getElementById('embedbuilder');
-        if (!iframe) {
-            notify('Failed to send message (iframe not found).', 'danger', 'exclamation-triangle');
-            return sending = false;
-        };
-
-        const contentWindow = iframe.contentWindow;
-        if (!contentWindow) {
-            notify('Failed to send message (contentWindow not found).', 'danger', 'exclamation-triangle');
-            return sending = false;
-        
-        };
-
-        // @ts-ignore
-        const data = contentWindow.window.json;
-
-        if (!data) {
-            notify('Failed to send message (data not found).', 'danger', 'exclamation-triangle');
-            return sending = false;
-        };
+        }
 
         if (webhookData.enabled && !webhookData.avatarURL) {
             const formData = new FormData();
-            formData.append('image', webhookData.avatar.split(';base64,')[1]); // Append the avatar to the form data
+            formData.append('image', webhookData.avatar.split(';base64,')[1]);
 
             const res = await fetch('https://api.imgbb.com/1/upload?key=156507fba973791ad2c2d9e55d8efe70', {
                 method: 'POST',
@@ -132,16 +87,21 @@
             })
             const json = await res.json();
             webhookData.avatarURL = json.data.url;
-
-            console.log('Webhook data:', webhookData);
         }
 
-        const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}&data=${encodeURIComponent(JSON.stringify(filterData({ ...data, ...injectedData })))}`, {
+        const mRes = await fetch(`https://api.daalbot.xyz/dashboard/messages/create?guild=${currentGuild}&channel=${selectedChannel.id}&v=2${webhookData.enabled ? `&webhook=${encodeURIComponent(JSON.stringify({ username: webhookData.username, avatarURL: webhookData.avatarURL }))}` : ''}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `${localStorage.getItem('accesscode')}`
-            }
+            },
+            body: JSON.stringify({
+                message: {
+                    flags: 32768, // Enable components v2
+                    components: [...JSON.parse(data)],
+                    ...injectedData
+                }
+            })
         });
 
         if (mRes.status == 424) {
@@ -259,7 +219,9 @@ style="display: none;"
         </sl-tooltip>
     </div>
 
-    <iframe src="/html/embedbuilder/index.html" id="embedbuilder" title="Embed Builder"></iframe>
+    <a href="https://hex.daalbot.xyz/components?redir={$page.url.href.replace($page.url.search, '')}" class="button" rel="noopener noreferrer">
+        Customise message
+    </a>
 
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="send" on:click={sendMessage}>
@@ -276,7 +238,7 @@ style="display: none;"
 </main>
 
 <sl-dialog label="More Settings" class="sl-theme-dark" id="wh-dialog">
-    <form id="webhook-info">
+    <form id="webhook-info" style="display: none;"> <!-- TODO: Not sending at all when enabled -->
         <h3 style="margin-top: 0;">Webhook Info</h3>
         <label for="username">
             <p>Username</p>
@@ -309,12 +271,12 @@ style="display: none;"
 </sl-dialog>
 
 <style>
-    iframe {
-        width: 100%;
-        height: 100vh;
-        border: none;
+    a.button {
+        margin: 5rem;
+        padding: 1rem;
+        border: 1px solid #3f3f3f;
 
-        margin-top: 1rem;
+        border-radius: 5px;
     }
 
     label {
