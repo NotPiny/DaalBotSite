@@ -5,7 +5,7 @@
 <div class="footer" style="background-color: {colour}">
     <p class="footer-made-by-text">Made with ❤️ by <a href="https://piny.dev">Piny</a></p>
     <p><a href="https://github.com/DaalBot/Discord">Github</a> / <a href="/Legal">Legal</a> / <a href="/Contact">Contact</a></p>
-    <a href="/Acknowledgements">Acknowledgements</a>
+    <a href="/Details">Details</a>
 </div>
 
 <style>
