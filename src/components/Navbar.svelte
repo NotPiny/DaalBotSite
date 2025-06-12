@@ -100,7 +100,7 @@
         { href: "/", text: "Home" },
         { href: "https://go.daalbot.xyz/Invite", text: "Invite" },
         { href: "https://go.daalbot.xyz/HQ", text: "Support" },
-        { href: "/Dashboard", text: "Dashboard", highlight: true }
+        { href: "https://dashboard.daalbot.xyz/", text: "Dashboard", highlight: true }
     ];
 </script>
 
