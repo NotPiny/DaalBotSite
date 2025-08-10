@@ -11,7 +11,7 @@
     export let data;
 
     onMount(async() => {
-        const res = await fetch(`https://api.daalbot.xyz/get/files/md?file=${data.document.toLowerCase()}`).then(res => res.text());
+        const res = await fetch(`https://discord.daalbot.xyz/md/${data.document.toLowerCase()}`).then(res => res.text());
 
         // Remove any first line that is a title
         content = res.split('\n')[0].startsWith('# ') ? res.split('\n').slice(1).join('\n') : res;
