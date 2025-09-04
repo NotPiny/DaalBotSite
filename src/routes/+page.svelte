@@ -65,7 +65,7 @@
 </svelte:head>
 <Navbar />
 <Header title="DaalBot" buttons={[
-    { text: "Dashboard", href: "/Dashboard" },
+    { text: "Dashboard", href: "https://dashboard.daalbot.xyz" },
     { text: "Invite", href: "https://go.daalbot.xyz/Invite" }
 ]} subtext="{stats.resType !== 'nodata' ? `Servers: ${stats.bot.guild_count} | Messages processed <button id="change-mp-range" style="padding: 0.25rem 0.5rem; cursor: pointer; background-color: #1e1e1e; border-radius: .75rem; border: none; color: white;" onclick="this.innerText = this.innerText == '24h' ? 'all' : '24h'; window.functions.changeCountRange(this.innerText == '24h' ? 'day' : 'lifetime')">${messageCountRange == 'day' ? '24h' : 'all'}</button>: ${browser && (stats.message_counts[messageCountRange]).toLocaleString(undefined, {notation: 'compact'})}+`
 : 'Statistics loading...'}"/>
